@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Vite build production output
+dist/
+dist-ssr/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+
+# IDE / Editor configuration folders
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
