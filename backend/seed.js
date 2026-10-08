@@ -1,10 +1,11 @@
-// Run once: npm run seed  (adds sample data so the storefront has something to show)
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '1.1.1.1']);
 require('dotenv').config();
 const mongoose = require('mongoose');
 const { Category, Brand, Product, Inventory, StoreInfo } = require('./models');
 
 (async () => {
-  await mongoose.connect(process.env.MONGO_URI);
+  await mongoose.connect(process.env.MONGODB_URI);
   const cats = {}, brands = {};
   for (const n of ['Window', 'Split', 'Portable', 'Floor-standing', 'Ceiling cassette'])
     cats[n] = await Category.findOneAndUpdate({ name: n }, { name: n }, { upsert: true, new: true });
