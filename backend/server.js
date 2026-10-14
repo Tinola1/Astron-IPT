@@ -13,6 +13,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get('/', (req, res) => res.send('Astron API running'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/admin/users', require('./routes/adminUsers'));
 app.use('/api', require('./routes/public'));
 
 const PORT = process.env.PORT || 5000;

@@ -2,7 +2,7 @@ const dns = require('dns');
 dns.setServers(['8.8.8.8', '1.1.1.1']);
 require('dotenv').config();
 const mongoose = require('mongoose');
-const { Category, Brand, Product, Inventory, StoreInfo } = require('./models');
+const { Category, Brand, Product, Inventory, StoreInfo, User } = require('./models');
 
 (async () => {
   await mongoose.connect(process.env.MONGODB_URI);
@@ -33,5 +33,9 @@ const { Category, Brand, Product, Inventory, StoreInfo } = require('./models');
   if (!(await StoreInfo.findOne()))
     await StoreInfo.create({ address: '123 Sample Street, Quezon City', phone: '(02) 8123 4567',
       email: 'support@astron.example', businessHours: 'Mon-Sat, 9:00 AM-6:00 PM' });
+
+  if (!(await User.findOne({ email: 'admin@astron.example' })))
+    await User.create({ name: 'Admin', email: 'admin@astron.example', password: 'admin123', role: 'admin' });
+
   console.log('Seeded.'); process.exit(0);
 })();
