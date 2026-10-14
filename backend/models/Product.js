@@ -23,11 +23,14 @@ const productSchema = new mongoose.Schema(
     recommendedRoomSize: { minSqm: Number, maxSqm: Number },
     isAvailable: { type: Boolean, default: true },
     isDeleted: { type: Boolean, default: false },
+    averageRating: { type: Number, default: 0, min: 0, max: 5 },
+    numReviews: { type: Number, default: 0, min: 0 },
   },
   { timestamps: true }
 );
 
 productSchema.index({ name: 'text', modelNumber: 'text' });
 productSchema.index({ category: 1, brand: 1, price: 1 });
+productSchema.index({ averageRating: -1 });
 
 module.exports = mongoose.model('Product', productSchema);

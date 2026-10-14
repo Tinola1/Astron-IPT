@@ -1,0 +1,2 @@
+export const TOGGLE_COMPARE = 'TOGGLE_COMPARE';
+export const CLEAR_COMPARE = 'CLEAR_COMPARE';
