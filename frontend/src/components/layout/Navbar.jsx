@@ -14,8 +14,8 @@ export default function Navbar() {
   const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
   const [anchor, setAnchor] = useState(null);
-  const cartCount = 0; // wired to CartContext in a later batch
-
+  const cartCount = useSelector((state) => state.cart.count);
+  
   const go = (path) => {
     setAnchor(null);
     navigate(path);

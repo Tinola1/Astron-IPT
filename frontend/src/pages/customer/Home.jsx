@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import { fetchProducts, loadCatalogMeta, setFilters, setViewMode } from '../../store/actions/productActions';
 import { toggleCompare } from '../../store/actions/compareActions';
 import { MAX_COMPARE } from '../../store/reducers/compareReducer';
+import { useNavigate } from 'react-router-dom';
+import { addToCart } from '../../store/actions/cartActions';
 import RoomSizeFinder from '../../components/product/RoomSizeFinder';
 import ProductFilters from '../../components/product/ProductFilters';
 import ProductCard from '../../components/product/ProductCard';
@@ -17,6 +19,8 @@ export default function Home() {
   const dispatch = useDispatch();
   const { items, page, pages, total, loading, error, filters, viewMode } = useSelector((s) => s.products);
   const compare = useSelector((s) => s.compare);
+  const navigate = useNavigate();
+  const user = useSelector((s) => s.auth.user);
   const sentinelRef = useRef(null);
 
   useEffect(() => {
@@ -49,6 +53,19 @@ export default function Home() {
       return;
     }
     dispatch(toggleCompare(product));
+  };
+
+  const handleAddToCart = async (product) => {
+    if (!user) {
+      toast.info('Please log in to add items to your cart');
+      navigate('/login', { state: { from: { pathname: '/' } } });
+      return;
+    }
+    if (user.role !== 'customer') {
+      toast.info('The cart is for customer accounts');
+      return;
+    }
+    if (await dispatch(addToCart(product._id))) toast.success(`${product.name} added to cart`);
   };
 
   const handlePage = (_, p) => {
@@ -109,6 +126,7 @@ export default function Home() {
                   product={p}
                   compared={compare.some((c) => c._id === p._id)}
                   onToggleCompare={handleToggleCompare}
+                  onAddToCart={handleAddToCart}
                 />
               </Grid>
             ))}

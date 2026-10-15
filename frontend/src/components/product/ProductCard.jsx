@@ -1,8 +1,7 @@
 import { Box, Button, Card, CardContent, Checkbox, Chip, FormControlLabel, Rating, Stack, Typography } from '@mui/material';
-import { toast } from 'react-toastify';
 import { peso } from '../../utils/format';
 
-export default function ProductCard({ product: p, compared, onToggleCompare }) {
+export default function ProductCard({ product: p, compared, onToggleCompare, onAddToCart }) {  
   const lowStock = p.available && p.onlineStock <= 3;
 
   return (
@@ -53,7 +52,7 @@ export default function ProductCard({ product: p, compared, onToggleCompare }) {
             variant="contained"
             size="small"
             disabled={!p.available}
-            onClick={() => toast.info('Add to cart is not yet available.')}
+            onClick={() => onAddToCart(p)}
           >
             Add to cart
           </Button>
