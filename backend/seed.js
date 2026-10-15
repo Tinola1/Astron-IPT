@@ -2,7 +2,7 @@ const dns = require('dns');
 dns.setServers(['8.8.8.8', '1.1.1.1']);
 require('dotenv').config();
 const mongoose = require('mongoose');
-const { Category, Brand, Product, Inventory, StoreInfo, User } = require('./models');
+const { Category, Brand, Product, Inventory, StoreInfo, User, AddOn, DeliveryZone, Promotion } = require('./models');
 
 (async () => {
   await mongoose.connect(process.env.MONGODB_URI);
@@ -36,6 +36,31 @@ const { Category, Brand, Product, Inventory, StoreInfo, User } = require('./mode
 
   if (!(await User.findOne({ email: 'admin@astron.example' })))
     await User.create({ name: 'Admin', email: 'admin@astron.example', password: 'admin123', role: 'admin' });
+  
+    const addOns = [
+    ['Standard installation', 'installation', 2500, 'Mounting and setup, up to 3m of piping'],
+    ['Extended warranty (+1 year)', 'extended_warranty', 2500, 'One extra year of parts and labor'],
+    ['Mounting bracket', 'mounting_bracket', 1200, 'Heavy-duty outdoor unit bracket'],
+    ['Piping kit', 'piping_kit', 1800, 'Copper piping, insulation and cabling'],
+  ];
+  for (const [name, type, price, description] of addOns)
+    await AddOn.findOneAndUpdate({ name }, { name, type, price, description, isActive: true }, { upsert: true });
+
+  await DeliveryZone.findOneAndUpdate({ name: 'Metro Manila' }, {
+    name: 'Metro Manila', fee: 500, isActive: true, provinces: ['Metro Manila', 'NCR'],
+    cities: ['Quezon City', 'Manila', 'Makati', 'Pasig', 'Taguig', 'Mandaluyong', 'Marikina', 'Pasay',
+      'Caloocan', 'Paranaque', 'Las Pinas', 'Muntinlupa', 'San Juan', 'Valenzuela', 'Malabon', 'Navotas', 'Pateros'],
+  }, { upsert: true });
+  await DeliveryZone.findOneAndUpdate({ name: 'Greater Manila' }, {
+    name: 'Greater Manila', fee: 1200, isActive: true, cities: [], provinces: ['Cavite', 'Laguna', 'Rizal', 'Bulacan'],
+  }, { upsert: true });
+
+  await Promotion.findOneAndUpdate({ code: 'WELCOME10' }, {
+    title: 'Welcome 10% off', code: 'WELCOME10', discountType: 'percent', discountValue: 10,
+    minOrderAmount: 10000, usageLimit: 100, isActive: true }, { upsert: true });
+  await Promotion.findOneAndUpdate({ code: 'SAVE1000' }, {
+    title: 'P1,000 off big orders', code: 'SAVE1000', discountType: 'fixed', discountValue: 1000,
+    minOrderAmount: 30000, isActive: true }, { upsert: true });
 
   console.log('Seeded.'); process.exit(0);
 })();

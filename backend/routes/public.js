@@ -1,7 +1,7 @@
 // Public, read-only endpoints used by the storefront.
 const router = require('express').Router();
 const mongoose = require('mongoose');
-const { Product, Category, Brand, Inventory, StoreInfo } = require('../models');
+const { Product, Category, Brand, Inventory, StoreInfo, AddOn } = require('../models');
 
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const num = (v) => (v !== undefined && v !== '' && Number.isFinite(Number(v)) ? Number(v) : null);
@@ -20,6 +20,10 @@ router.get('/categories', async (_req, res) => {
 
 router.get('/brands', async (_req, res) => {
   res.json(await Brand.find({ isActive: true }).sort('name').select('name'));
+});
+
+router.get('/addons', async (_req, res) => {
+  res.json(await AddOn.find({ isActive: true }).sort('type price').select('name type description price'));
 });
 
 router.get('/store-info', async (_req, res) => {
