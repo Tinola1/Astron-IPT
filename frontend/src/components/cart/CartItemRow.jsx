@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { Alert, Box, Checkbox, FormControlLabel, FormGroup, IconButton, Paper, Stack, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutlined';
 import { updateCartItem, removeCartItem } from '../../store/actions/cartActions';
 import { MAX_CART_QTY } from '../../utils/constants';
 import { peso } from '../../utils/format';

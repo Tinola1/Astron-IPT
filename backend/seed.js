@@ -34,7 +34,7 @@ const { Category, Brand, Product, Inventory, StoreInfo, User, AddOn, DeliveryZon
     await StoreInfo.create({ address: '123 Sample Street, Quezon City', phone: '(02) 8123 4567',
       email: 'support@astron.example', businessHours: 'Mon-Sat, 9:00 AM-6:00 PM' });
 
-  if (!(await User.findOne({ email: 'admin@astron.example' })))
+  if (!(await User.findOne({ email: 'admin@astron.com' })))
     await User.create({ name: 'Admin', email: 'admin@astron.example', password: 'admin123', role: 'admin' });
   
     const addOns = [
