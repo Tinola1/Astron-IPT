@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import CustomerLayout from '../components/layout/CustomerLayout';
+import AdminLayout from '../components/layout/AdminLayout';
 import ProtectedRoute from './ProtectedRoute';
 import Home from '../pages/customer/Home';
 import Cart from '../pages/customer/Cart';
@@ -10,6 +11,9 @@ import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
 import ForgotPassword from '../pages/auth/ForgotPassword';
 import ResetPassword from '../pages/auth/ResetPassword';
+import Dashboard from '../pages/admin/Dashboard';
+import ProductList from '../pages/admin/products/ProductList';
+import ProductForm from '../pages/admin/products/ProductForm';
 import NotFound from '../pages/NotFound';
 
 export default function AppRoutes() {
@@ -29,10 +33,21 @@ export default function AppRoutes() {
           <Route path="checkout" element={<Checkout />} />
           <Route path="account/orders" element={<Orders />} />
           <Route path="account/orders/:id" element={<OrderDetail />} />
-          {/* profile, addresses, warranties, service requests: later batches */}
         </Route>
 
         <Route path="*" element={<NotFound />} />
+      </Route>
+
+      {/* admin / staff area */}
+      <Route path="admin" element={<ProtectedRoute roles={['admin', 'staff']} />}>
+        <Route element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route element={<ProtectedRoute roles={['admin']} />}>
+            <Route path="products" element={<ProductList />} />
+            <Route path="products/new" element={<ProductForm />} />
+            <Route path="products/:id/edit" element={<ProductForm />} />
+          </Route>
+        </Route>
       </Route>
     </Routes>
   );
