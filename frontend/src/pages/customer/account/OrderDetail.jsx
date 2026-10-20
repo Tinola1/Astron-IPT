@@ -11,6 +11,8 @@ import OrderSummary from '../../../components/cart/OrderSummary';
 import { fetchOrder, cancelOrder } from '../../../store/actions/orderActions';
 import { ORDER_STATUS, PAYMENT_METHODS } from '../../../utils/constants';
 import { formatDate, formatDateTime, peso } from '../../../utils/format';
+import { downloadReceipt } from '../../../api/orders';
+import { saveBlob } from '../../../utils/download';
 
 const CANCELLABLE = ['pending', 'processing'];
 
@@ -124,6 +126,13 @@ export default function OrderDetail() {
             {CANCELLABLE.includes(order.status) && (
               <Button color="error" variant="outlined" onClick={() => setOpen(true)}>Cancel order</Button>
             )}
+              <Button variant="outlined" onClick={async () => {
+                try {
+                  saveBlob(await downloadReceipt(order._id), `Receipt-${order.orderNumber}.pdf`);
+                } catch {
+                  toast.error('Could not download the receipt');
+                }
+              }}>Download receipt (PDF)</Button>
             <Button component={RouterLink} to="/account/orders">Back to my orders</Button>
           </Stack>
         </Grid>

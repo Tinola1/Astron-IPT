@@ -13,12 +13,14 @@ import StorefrontIcon from '@mui/icons-material/Storefront';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { toast } from 'react-toastify';
 import { logout } from '../../store/actions/authActions';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 
 const WIDTH = 240;
 const NAV = [
   { label: 'Dashboard', to: '/admin', icon: <DashboardIcon />, exact: true },
   { label: 'Products', to: '/admin/products', icon: <Inventory2Icon />, roles: ['admin'] },
-  // orders, inventory, installations, reports... added in later batches
+  { label: 'Products', to: '/admin/products', icon: <Inventory2Icon />, roles: ['admin'] },
+  { label: 'Orders', to: '/admin/orders', icon: <ReceiptLongIcon />, roles: ['admin'] },
 ];
 
 export default function AdminLayout() {

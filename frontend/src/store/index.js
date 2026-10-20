@@ -6,6 +6,7 @@ import compareReducer from './reducers/compareReducer';
 import cartReducer from './reducers/cartReducer';
 import orderReducer from './reducers/orderReducer';
 import adminProductReducer from './reducers/adminProductReducer';
+import adminOrderReducer from './reducers/adminOrderReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   orders: orderReducer,
   adminProducts: adminProductReducer,
+  adminOrders: adminOrderReducer,
 });
 
 const composeEnhancers =

@@ -5,6 +5,8 @@ const { protect, authorize } = require('../middleware/auth');
 const { getCartContext } = require('../utils/cartHelpers');
 const { computeTotals } = require('../utils/pricing');
 const { sendOrderConfirmation } = require('../utils/orderEmail');
+const { finalizeCancellation } = require('../utils/orderService');
+const { buildReceiptPdf } = require('../utils/receiptPdf');
 const { asyncHandler: h, httpError } = require('../utils/http');
 
 router.use(protect, authorize('customer'));
@@ -176,14 +178,20 @@ router.put('/:id/cancel', h(async (req, res) => {
   );
   if (!order) throw httpError(400, 'This order can no longer be cancelled');
 
-  await Promise.all(order.items.map((it) => Inventory.updateOne({ product: it.product }, { $inc: { onlineStock: it.quantity } })));
-  await Installation.updateMany({ order: order._id }, { status: 'cancelled' });
-  if (order.promotion) await Promotion.updateOne({ _id: order.promotion }, { $inc: { usedCount: -1 } });
-  if (order.payment.status === 'paid') {
-    order.payment.status = 'refunded';
-    await order.save();
-  }
+  await finalizeCancellation(order);
   res.json(order);
+}));
+
+// GET /api/orders/:id/receipt  -> PDF download of my own order
+router.get('/:id/receipt', h(async (req, res) => {
+  const order = mongoose.isValidObjectId(req.params.id)
+    ? await Order.findOne({ _id: req.params.id, user: req.user._id })
+    : null;
+  if (!order) throw httpError(404, 'Order not found');
+  const pdf = await buildReceiptPdf(order.toObject(), req.user);
+  res
+    .set({ 'Content-Type': 'application/pdf', 'Content-Disposition': `attachment; filename="Receipt-${order.orderNumber}.pdf"` })
+    .send(pdf);
 }));
 
 module.exports = router;

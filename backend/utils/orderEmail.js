@@ -1,10 +1,12 @@
 const sendEmail = require('./sendEmail');
 const { orderLineSubtotal } = require('./pricing');
+const { buildReceiptPdf } = require('./receiptPdf');
 
 const peso = (n) =>
   '₱' + Number(n || 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const esc = (s) =>
   String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const label = (s) => String(s || '').replace(/_/g, ' ');
 
 // Itemized HTML: products/add-ons, line subtotals, grand total
 function orderEmailHtml(order, intro) {
@@ -21,14 +23,16 @@ function orderEmailHtml(order, intro) {
     })
     .join('');
 
-  const totalRow = (label, value, bold) =>
-    `<tr><td colspan="3" style="padding:4px 6px;text-align:right;${bold ? 'font-weight:bold' : ''}">${label}</td>
+  const totalRow = (name, value, bold) =>
+    `<tr><td colspan="3" style="padding:4px 6px;text-align:right;${bold ? 'font-weight:bold' : ''}">${name}</td>
      <td style="padding:4px 6px;text-align:right;${bold ? 'font-weight:bold' : ''}">${value}</td></tr>`;
 
   return `<div style="font-family:Arial,sans-serif;max-width:640px">
-    <h2>Astron Air Conditioners</h2>
-    <p>${intro}</p>
-    <p><b>Order:</b> ${esc(order.orderNumber)}<br><b>Status:</b> ${esc(order.status.replace(/_/g, ' '))}</p>
+    <h2 style="color:#0b5fff">Astron Air Conditioners</h2>
+    ${intro}
+    <p><b>Order:</b> ${esc(order.orderNumber)}<br>
+       <b>Status:</b> ${esc(label(order.status))}<br>
+       <b>Payment:</b> ${esc(label(order.payment?.method))} (${esc(order.payment?.status)})</p>
     <table style="width:100%;border-collapse:collapse">
       <thead><tr style="background:#f3f6fc">
         <th style="padding:6px;text-align:left">Item</th><th style="padding:6px">Qty</th>
@@ -46,11 +50,47 @@ function orderEmailHtml(order, intro) {
     </table></div>`;
 }
 
+const receiptAttachment = async (order, customer) => ({
+  filename: `Receipt-${order.orderNumber}.pdf`,
+  content: await buildReceiptPdf(order, customer),
+  contentType: 'application/pdf',
+});
+
+// Sent right after checkout
 const sendOrderConfirmation = (order, user) =>
   sendEmail({
     to: user.email,
     subject: `Astron order confirmation ${order.orderNumber}`,
-    html: orderEmailHtml(order, `Thanks for your order, ${esc(user.name)}! Here are your order details.`),
+    html: orderEmailHtml(order, `<p>Thanks for your order, ${esc(user.name)}! Here are your order details.</p>`),
   });
 
-module.exports = { orderEmailHtml, sendOrderConfirmation, peso };
+const STATUS_INTRO = {
+  processing: 'We are now preparing your order.',
+  out_for_delivery: 'Your order is on its way to you.',
+  delivered: (o) =>
+    o.fulfillment === 'pickup' ? 'Your order has been picked up. Thank you!' : 'Your order has been delivered. Enjoy!',
+  installed: 'Your air conditioner has been installed. Enjoy the cool!',
+  cancelled: 'Your order has been cancelled. Any payment made will be refunded.',
+  pending: 'Your order is pending.',
+};
+
+// Sent whenever an admin updates an order: itemized details + PDF receipt attached
+async function sendOrderStatusUpdate(order, customer, { note, paymentChanged } = {}) {
+  const base = STATUS_INTRO[order.status];
+  const line = typeof base === 'function' ? base(order) : base;
+  const intro =
+    `<p>Hi ${esc(customer.name)},</p>` +
+    `<p>${esc(line || 'Your order has been updated.')}` +
+    `${paymentChanged ? ` Payment status: <b>${esc(order.payment.status)}</b>.` : ''}</p>` +
+    `${note ? `<p><i>Note from Astron: ${esc(note)}</i></p>` : ''}` +
+    `<p>Your receipt is attached as a PDF.</p>`;
+
+  return sendEmail({
+    to: customer.email,
+    subject: `Astron order ${order.orderNumber}: ${label(order.status)}`,
+    html: orderEmailHtml(order, intro),
+    attachments: [await receiptAttachment(order, customer)],
+  });
+}
+
+module.exports = { orderEmailHtml, sendOrderConfirmation, sendOrderStatusUpdate, peso };

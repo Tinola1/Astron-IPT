@@ -35,3 +35,10 @@ export const ORDER_STATUS = {
   installed: { label: 'Installed', color: 'success' },
   cancelled: { label: 'Cancelled', color: 'error' },
 };
+
+export const PAYMENT_STATUS = {
+  pending: { label: 'Pending', color: 'default' },
+  paid: { label: 'Paid', color: 'success' },
+  failed: { label: 'Failed', color: 'error' },
+  refunded: { label: 'Refunded', color: 'info' },
+};

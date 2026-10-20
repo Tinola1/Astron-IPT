@@ -15,6 +15,8 @@ import Dashboard from '../pages/admin/Dashboard';
 import ProductList from '../pages/admin/products/ProductList';
 import ProductForm from '../pages/admin/products/ProductForm';
 import NotFound from '../pages/NotFound';
+import AdminOrderList from '../pages/admin/orders/OrderList';
+import AdminOrderDetail from '../pages/admin/orders/OrderDetail';
 
 export default function AppRoutes() {
   return (
@@ -46,6 +48,8 @@ export default function AppRoutes() {
             <Route path="products" element={<ProductList />} />
             <Route path="products/new" element={<ProductForm />} />
             <Route path="products/:id/edit" element={<ProductForm />} />
+            <Route path="orders" element={<AdminOrderList />} />
+            <Route path="orders/:id" element={<AdminOrderDetail />} />
           </Route>
         </Route>
       </Route>
