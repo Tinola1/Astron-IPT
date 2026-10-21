@@ -1,13 +1,18 @@
 import { Box, Button, Card, CardContent, Checkbox, Chip, FormControlLabel, Rating, Stack, Typography } from '@mui/material';
 import { peso } from '../../utils/format';
+import { Link as RouterLink } from 'react-router-dom';
 
 export default function ProductCard({ product: p, compared, onToggleCompare, onAddToCart }) {  
   const lowStock = p.available && p.onlineStock <= 3;
 
   return (
     <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ height: 140, bgcolor: '#eef2fb', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'primary.main' }}>
-        {p.image ? (
+      <Box
+        component={RouterLink}
+        to={`/products/${p._id}`}
+        sx={{ height: 140, bgcolor: '#eef2fb', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'primary.main', textDecoration: 'none' }}
+      >
+          {p.image ? (
           <img src={p.image} alt={p.name} style={{ maxHeight: 130, maxWidth: '100%', objectFit: 'contain' }} />
         ) : (
           <svg width="64" height="40" viewBox="0 0 64 40" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
@@ -19,7 +24,16 @@ export default function ProductCard({ product: p, compared, onToggleCompare, onA
 
       <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 0.75 }}>
         <Typography variant="caption" color="text.secondary">{p.brand} · {p.category}</Typography>
-        <Typography variant="subtitle1" fontWeight={700} lineHeight={1.25}>{p.name}</Typography>
+                <Typography
+          variant="subtitle1"
+          fontWeight={700}
+          lineHeight={1.25}
+          component={RouterLink}
+          to={`/products/${p._id}`}
+          sx={{ color: 'inherit', textDecoration: 'none', '&:hover': { color: 'primary.main' } }}
+        >
+          {p.name}
+        </Typography>
 
         <Stack direction="row" alignItems="center" spacing={0.5}>
           {p.numReviews > 0 ? (

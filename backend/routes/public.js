@@ -118,4 +118,37 @@ router.get('/products', async (req, res) => {
   }
 });
 
+// GET /api/products/:id  - full detail for the product page
+router.get('/products/:id', async (req, res) => {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) return res.status(404).json({ message: 'Product not found' });
+    const p = await Product.findOne({ _id: req.params.id, isDeleted: false })
+      .populate('brand', 'name')
+      .populate('category', 'name')
+      .lean();
+    if (!p) return res.status(404).json({ message: 'Product not found' });
+
+    const inv = await Inventory.findOne({ product: p._id }).lean();
+    const online = inv ? inv.onlineStock : 0;
+    res.json({
+      _id: p._id,
+      name: p.name,
+      modelNumber: p.modelNumber,
+      description: p.description,
+      brand: p.brand?.name,
+      category: p.category?.name,
+      price: p.price,
+      specs: p.specs || {},
+      images: (p.images || []).map((i) => i.url),
+      recommendedRoomSize: p.recommendedRoomSize || null,
+      averageRating: p.averageRating || 0,
+      numReviews: p.numReviews || 0,
+      onlineStock: online,
+      available: p.isAvailable && online > 0,
+    });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
 module.exports = router;

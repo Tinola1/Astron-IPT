@@ -7,6 +7,8 @@ import cartReducer from './reducers/cartReducer';
 import orderReducer from './reducers/orderReducer';
 import adminProductReducer from './reducers/adminProductReducer';
 import adminOrderReducer from './reducers/adminOrderReducer';
+import productDetailReducer from './reducers/productDetailReducer';
+import adminReviewReducer from './reducers/adminReviewReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -16,6 +18,9 @@ const rootReducer = combineReducers({
   orders: orderReducer,
   adminProducts: adminProductReducer,
   adminOrders: adminOrderReducer,
+  adminOrders: adminOrderReducer,
+  productDetail: productDetailReducer,
+  adminReviews: adminReviewReducer,
 });
 
 const composeEnhancers =

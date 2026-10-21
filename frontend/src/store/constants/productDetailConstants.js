@@ -1,0 +1,12 @@
+export const PD_REQUEST = 'PD_REQUEST';
+export const PD_SUCCESS = 'PD_SUCCESS';
+export const PD_FAIL = 'PD_FAIL';
+export const PD_CLEAR = 'PD_CLEAR';
+export const PD_REVIEWS_REQUEST = 'PD_REVIEWS_REQUEST';
+export const PD_REVIEWS_SUCCESS = 'PD_REVIEWS_SUCCESS';
+export const PD_REVIEWS_FAIL = 'PD_REVIEWS_FAIL';
+export const PD_SET_RATING_FILTER = 'PD_SET_RATING_FILTER';
+export const PD_MINE_SUCCESS = 'PD_MINE_SUCCESS';
+export const PD_SAVE_REQUEST = 'PD_SAVE_REQUEST';
+export const PD_SAVE_SUCCESS = 'PD_SAVE_SUCCESS';
+export const PD_SAVE_FAIL = 'PD_SAVE_FAIL';

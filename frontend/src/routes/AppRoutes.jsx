@@ -17,6 +17,8 @@ import ProductForm from '../pages/admin/products/ProductForm';
 import NotFound from '../pages/NotFound';
 import AdminOrderList from '../pages/admin/orders/OrderList';
 import AdminOrderDetail from '../pages/admin/orders/OrderDetail';
+import ProductDetail from '../pages/customer/ProductDetail';
+import AdminReviewList from '../pages/admin/reviews/ReviewList';
 
 export default function AppRoutes() {
   return (
@@ -24,6 +26,7 @@ export default function AppRoutes() {
       <Route element={<CustomerLayout />}>
         {/* public */}
         <Route index element={<Home />} />
+        <Route path="products/:id" element={<ProductDetail />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
@@ -50,6 +53,7 @@ export default function AppRoutes() {
             <Route path="products/:id/edit" element={<ProductForm />} />
             <Route path="orders" element={<AdminOrderList />} />
             <Route path="orders/:id" element={<AdminOrderDetail />} />
+            <Route path="reviews" element={<AdminReviewList />} />
           </Route>
         </Route>
       </Route>

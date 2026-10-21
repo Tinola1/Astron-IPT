@@ -16,4 +16,5 @@ module.exports = {
   DeliveryZone: require('./DeliveryZone'),
   Content: require('./Content'),
   StoreInfo: require('./StoreInfo'),
+  Review: require('./Review'),
 };
