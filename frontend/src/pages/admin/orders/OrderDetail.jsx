@@ -9,7 +9,7 @@ import Loader from '../../../components/common/Loader';
 import ConfirmDialog from '../../../components/common/ConfirmDialog';
 import OrderSummary from '../../../components/cart/OrderSummary';
 import { fetchAdminOrder, updateOrderStatus, clearAdminOrder } from '../../../store/actions/adminOrderActions';
-import { downloadAdminReceipt } from '../../../api/adminOrders';
+import { downloadAdminReceipt, resendEmailApi } from '../../../api/adminOrders';
 import { saveBlob } from '../../../utils/download';
 import { ORDER_STATUS, PAYMENT_METHODS, PAYMENT_STATUS } from '../../../utils/constants';
 import { formatDate, formatDateTime, peso } from '../../../utils/format';
@@ -19,6 +19,7 @@ export default function AdminOrderDetail() {
   const dispatch = useDispatch();
   const { current: order, saving, error } = useSelector((s) => s.adminOrders);
 
+  const [resending, setResending] = useState(false);
   const [status, setStatus] = useState('');
   const [payStatus, setPayStatus] = useState('pending');
   const [note, setNote] = useState('');
@@ -68,6 +69,18 @@ export default function AdminOrderDetail() {
       saveBlob(await downloadAdminReceipt(id), `Receipt-${order.orderNumber}.pdf`);
     } catch {
       toast.error('Could not download the receipt');
+    }
+  };
+
+  const handleResend = async () => {
+    setResending(true);
+    try {
+      const d = await resendEmailApi(id);
+      toast.success(d.message);
+    } catch (e) {
+      toast.error(e.message);
+    } finally {
+      setResending(false);
     }
   };
 
@@ -200,6 +213,9 @@ export default function AdminOrderDetail() {
 
             <Stack direction="row" spacing={1}>
               <Button variant="outlined" onClick={handleReceipt}>Download receipt (PDF)</Button>
+              <Button variant="outlined" disabled={resending} onClick={handleResend}>
+                {resending ? 'Sending…' : 'Resend email'}
+              </Button>
               <Button component={RouterLink} to="/admin/orders">Back to orders</Button>
             </Stack>
           </Stack>

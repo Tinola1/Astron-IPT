@@ -88,6 +88,13 @@ router.get('/:id/receipt', h(async (req, res) => {
     .send(pdf);
 }));
 
+// POST /api/admin/orders/:id/resend-email  -> re-sends the current details + PDF receipt
+router.post('/:id/resend-email', h(async (req, res) => {
+  const order = await loadOrder(req.params.id);
+  await sendOrderStatusUpdate(order, order.user, {}); // throws with a readable message if email isn't configured
+  res.json({ message: `Email sent to ${order.user.email}` });
+}));
+
 // PUT /api/admin/orders/:id/status  { status?, paymentStatus?, note?, notify? }
 router.put('/:id/status', h(async (req, res) => {
   const order = await loadOrder(req.params.id);
