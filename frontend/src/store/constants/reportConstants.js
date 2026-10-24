@@ -1,0 +1,6 @@
+export const RP_DASH_REQUEST = 'RP_DASH_REQUEST';
+export const RP_DASH_SUCCESS = 'RP_DASH_SUCCESS';
+export const RP_DASH_FAIL = 'RP_DASH_FAIL';
+export const RP_SALES_REQUEST = 'RP_SALES_REQUEST';
+export const RP_SALES_SUCCESS = 'RP_SALES_SUCCESS';
+export const RP_SALES_FAIL = 'RP_SALES_FAIL';

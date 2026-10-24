@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useSearchParams } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 import { Alert, Button, Chip, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
 import useDebounce from '../../../hooks/useDebounce';
@@ -16,7 +16,9 @@ export default function OrderList() {
   const [paging, setPaging] = useState({ page: 0, pageSize: 10 });
   const [sortModel, setSortModel] = useState([{ field: 'createdAt', sort: 'desc' }]);
   const [search, setSearch] = useState('');
-  const [status, setStatus] = useState('');
+  const [searchParams] = useSearchParams();
+  const initialStatus = searchParams.get('status');
+  const [status, setStatus] = useState(ORDER_STATUS[initialStatus] ? initialStatus : '');
   const debouncedSearch = useDebounce(search, 400);
 
   useEffect(() => {
