@@ -122,7 +122,12 @@ export default function Checkout() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <Typography variant="h4" fontWeight={800} sx={{ mb: 2 }}>Checkout</Typography>
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: 800,
+          mb: 2
+        }}>Checkout</Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       {cart.hasIssues && (
         <Alert severity="warning" sx={{ mb: 2 }}>
@@ -156,7 +161,9 @@ export default function Checkout() {
             {/* 2. Address */}
             {fulfillment === 'delivery' && (
               <Paper sx={{ p: 2 }}>
-                <Typography fontWeight={700}>Delivery address</Typography>
+                <Typography sx={{
+                  fontWeight: 700
+                }}>Delivery address</Typography>
                 {saved.length > 0 && (
                   <TextField select fullWidth size="small" label="Use a saved address" value="" sx={{ mt: 2 }} onChange={(e) => fillAddress(e.target.value)}>
                     {saved.map((a, i) => (
@@ -183,8 +190,12 @@ export default function Checkout() {
             {/* 3. Installation date */}
             {cart.hasInstallation && (
               <Paper sx={{ p: 2 }}>
-                <Typography fontWeight={700}>Installation</Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography sx={{
+                  fontWeight: 700
+                }}>Installation</Typography>
+                <Typography variant="body2" sx={{
+                  color: "text.secondary"
+                }}>
                   Pick the date you'd like our technician to visit. We'll confirm the schedule by email.
                 </Typography>
                 <RHFTextField
@@ -222,10 +233,16 @@ export default function Checkout() {
         {/* Summary */}
         <Grid size={{ xs: 12, md: 4 }}>
           <Paper sx={{ p: 2, position: { md: 'sticky' }, top: { md: 80 } }}>
-            <Typography fontWeight={700} sx={{ mb: 1 }}>Order summary</Typography>
+            <Typography
+              sx={{
+                fontWeight: 700,
+                mb: 1
+              }}>Order summary</Typography>
             <Stack spacing={0.5} sx={{ mb: 2 }}>
               {cart.items.map((i) => (
-                <Stack key={i._id} direction="row" justifyContent="space-between">
+                <Stack key={i._id} direction="row" sx={{
+                  justifyContent: "space-between"
+                }}>
                   <Typography variant="body2">{i.product.name} × {i.quantity}</Typography>
                   <Typography variant="body2">{peso(i.lineTotal)}</Typography>
                 </Stack>
@@ -237,7 +254,9 @@ export default function Checkout() {
               <Button variant="outlined" onClick={applyPromo}>Apply</Button>
             </Stack>
             {promoMsg?.error && <Typography variant="caption" color="error">{promoMsg.error}</Typography>}
-            {promoMsg?.ok && <Typography variant="caption" color="success.main">{promoMsg.ok}</Typography>}
+            {promoMsg?.ok && <Typography variant="caption" sx={{
+              color: "success.main"
+            }}>{promoMsg.ok}</Typography>}
 
             <div style={{ marginTop: 16 }}>
               <OrderSummary
@@ -246,7 +265,9 @@ export default function Checkout() {
               />
             </div>
             {quote?.deliveryZone && (
-              <Typography variant="caption" color="text.secondary">Delivery zone: {quote.deliveryZone}</Typography>
+              <Typography variant="caption" sx={{
+                color: "text.secondary"
+              }}>Delivery zone: {quote.deliveryZone}</Typography>
             )}
 
             <Button type="submit" variant="contained" fullWidth size="large" sx={{ mt: 2 }} disabled={placing || cart.hasIssues}>

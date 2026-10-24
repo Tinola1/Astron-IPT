@@ -70,7 +70,9 @@ export default function ImageUploader({ existing, files, onExistingChange, onFil
       >
         <CloudUploadIcon color="primary" />
         <Typography>Drag photos here or click to browse</Typography>
-        <Typography variant="caption" color="text.secondary">
+        <Typography variant="caption" sx={{
+          color: "text.secondary"
+        }}>
           Up to {max} images, 5MB each. The first image is the main photo. ({total}/{max})
         </Typography>
         <input
@@ -80,7 +82,12 @@ export default function ImageUploader({ existing, files, onExistingChange, onFil
       </Paper>
 
       {total > 0 && (
-        <Stack direction="row" flexWrap="wrap" gap={1.5}>
+        <Stack
+          direction="row"
+          sx={{
+            flexWrap: "wrap",
+            gap: 1.5
+          }}>
           {existing.map((img, i) => (
             <Tile
               key={img.publicId}

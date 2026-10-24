@@ -3,13 +3,22 @@ import { Box, ButtonBase, LinearProgress, Rating, Stack, Typography } from '@mui
 // Click a bar to filter the list by that star rating (click again to clear)
 export default function RatingSummary({ average, count, distribution, selected, onSelect }) {
   return (
-    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} alignItems={{ sm: 'center' }}>
+    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{
+      alignItems: { sm: 'center' }
+    }}>
       <Box sx={{ textAlign: 'center', minWidth: 140 }}>
-        <Typography variant="h3" fontWeight={800} lineHeight={1}>
+        <Typography
+          variant="h3"
+          sx={{
+            fontWeight: 800,
+            lineHeight: 1
+          }}>
           {count ? average.toFixed(1) : '–'}
         </Typography>
         <Rating value={average} precision={0.1} readOnly />
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" sx={{
+          color: "text.secondary"
+        }}>
           {count} review{count === 1 ? '' : 's'}
         </Typography>
       </Box>
@@ -32,7 +41,13 @@ export default function RatingSummary({ average, count, distribution, selected, 
                 value={count ? (n / count) * 100 : 0}
                 sx={{ flex: 1, height: 8, borderRadius: 4 }}
               />
-              <Typography variant="body2" color="text.secondary" sx={{ width: 28, textAlign: 'right' }}>{n}</Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "text.secondary",
+                  width: 28,
+                  textAlign: 'right'
+                }}>{n}</Typography>
             </ButtonBase>
           );
         })}

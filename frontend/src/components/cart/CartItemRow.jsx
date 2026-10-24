@@ -27,10 +27,19 @@ export default function CartItemRow({ item, addOnOptions }) {
         </Box>
 
         <Box sx={{ flex: 1 }}>
-          <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
+          <Stack
+            direction="row"
+            sx={{
+              justifyContent: "space-between",
+              alignItems: "flex-start"
+            }}>
             <div>
-              <Typography fontWeight={700}>{item.product.name}</Typography>
-              <Typography variant="caption" color="text.secondary">
+              <Typography sx={{
+                fontWeight: 700
+              }}>{item.product.name}</Typography>
+              <Typography variant="caption" sx={{
+                color: "text.secondary"
+              }}>
                 {item.product.modelNumber} · {peso(item.product.price)} each
               </Typography>
             </div>
@@ -41,7 +50,13 @@ export default function CartItemRow({ item, addOnOptions }) {
 
           {item.issue && <Alert severity="warning" sx={{ my: 1 }}>{item.issue}. Adjust the quantity or remove it to continue.</Alert>}
 
-          <Stack direction="row" alignItems="center" spacing={1} sx={{ my: 1 }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+              alignItems: "center",
+              my: 1
+            }}>
             <IconButton size="small" aria-label="Decrease quantity" disabled={item.quantity <= 1} onClick={() => setQty(item.quantity - 1)}>
               <RemoveIcon fontSize="small" />
             </IconButton>
@@ -53,7 +68,9 @@ export default function CartItemRow({ item, addOnOptions }) {
 
           {addOnOptions.length > 0 && (
             <>
-              <Typography variant="caption" color="text.secondary">Add-ons</Typography>
+              <Typography variant="caption" sx={{
+                color: "text.secondary"
+              }}>Add-ons</Typography>
               <FormGroup>
                 {addOnOptions.map((a) => (
                   <FormControlLabel
@@ -67,7 +84,13 @@ export default function CartItemRow({ item, addOnOptions }) {
           )}
         </Box>
 
-        <Typography fontWeight={800} sx={{ alignSelf: { sm: 'center' }, minWidth: 100, textAlign: 'right' }}>
+        <Typography
+          sx={{
+            fontWeight: 800,
+            alignSelf: { sm: 'center' },
+            minWidth: 100,
+            textAlign: 'right'
+          }}>
           {peso(item.lineTotal)}
         </Typography>
       </Stack>

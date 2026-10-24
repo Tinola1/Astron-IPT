@@ -43,9 +43,13 @@ export default function ReviewForm({ productId }) {
 
   return (
     <Paper variant="outlined" sx={{ p: 2.5 }}>
-      <Typography fontWeight={700}>{existing ? 'Your review' : 'Write a review'}</Typography>
+      <Typography sx={{
+        fontWeight: 700
+      }}>{existing ? 'Your review' : 'Write a review'}</Typography>
       {existing?.isEdited && (
-        <Typography variant="caption" color="text.secondary">You edited this review before.</Typography>
+        <Typography variant="caption" sx={{
+          color: "text.secondary"
+        }}>You edited this review before.</Typography>
       )}
       {reviewError && <Alert severity="error" sx={{ mt: 1 }}>{reviewError}</Alert>}
 

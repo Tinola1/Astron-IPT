@@ -62,7 +62,9 @@ export default function ProductDetail() {
 
   if (product?._id !== id)
     return error ? (
-      <Stack spacing={2} alignItems="flex-start">
+      <Stack spacing={2} sx={{
+        alignItems: "flex-start"
+      }}>
         <Alert severity="error">{error}</Alert>
         <Button component={RouterLink} to="/" variant="contained">Back to shop</Button>
       </Stack>
@@ -100,11 +102,20 @@ export default function ProductDetail() {
             {mainImage ? (
               <img src={mainImage} alt={product.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
             ) : (
-              <Typography color="text.secondary">No photo available</Typography>
+              <Typography sx={{
+                color: "text.secondary"
+              }}>No photo available</Typography>
             )}
           </Box>
           {product.images.length > 1 && (
-            <Stack direction="row" spacing={1} sx={{ mt: 1.5 }} flexWrap="wrap" useFlexGap>
+            <Stack
+              direction="row"
+              spacing={1}
+              useFlexGap
+              sx={{
+                flexWrap: "wrap",
+                mt: 1.5
+              }}>
               {product.images.map((url, i) => (
                 <Box
                   key={url}
@@ -127,18 +138,33 @@ export default function ProductDetail() {
         {/* info + purchase */}
         <Grid size={{ xs: 12, md: 6 }}>
           <Stack spacing={1.5}>
-            <Typography variant="caption" color="text.secondary">{product.brand} · {product.category}</Typography>
-            <Typography variant="h4" fontWeight={800} lineHeight={1.15}>{product.name}</Typography>
-            <Typography variant="body2" color="text.secondary">Model {product.modelNumber}</Typography>
+            <Typography variant="caption" sx={{
+              color: "text.secondary"
+            }}>{product.brand} · {product.category}</Typography>
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: 800,
+                lineHeight: 1.15
+              }}>{product.name}</Typography>
+            <Typography variant="body2" sx={{
+              color: "text.secondary"
+            }}>Model {product.modelNumber}</Typography>
 
-            <Stack direction="row" spacing={1} alignItems="center">
+            <Stack direction="row" spacing={1} sx={{
+              alignItems: "center"
+            }}>
               <Rating value={product.averageRating} precision={0.1} readOnly />
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" sx={{
+                color: "text.secondary"
+              }}>
                 {product.numReviews ? `${product.averageRating.toFixed(1)} (${product.numReviews})` : 'No reviews yet'}
               </Typography>
             </Stack>
 
-            <Typography variant="h4" fontWeight={800}>{peso(product.price)}</Typography>
+            <Typography variant="h4" sx={{
+              fontWeight: 800
+            }}>{peso(product.price)}</Typography>
             <Box>
               <Chip
                 size="small"
@@ -149,7 +175,9 @@ export default function ProductDetail() {
 
             {product.available && addOnOptions.length > 0 && (
               <Paper variant="outlined" sx={{ p: 1.5 }}>
-                <Typography variant="body2" fontWeight={600}>Add-ons (optional)</Typography>
+                <Typography variant="body2" sx={{
+                  fontWeight: 600
+                }}>Add-ons (optional)</Typography>
                 <FormGroup>
                   {addOnOptions.map((a) => (
                     <FormControlLabel
@@ -162,8 +190,12 @@ export default function ProductDetail() {
               </Paper>
             )}
 
-            <Stack direction="row" spacing={2} alignItems="center">
-              <Stack direction="row" alignItems="center">
+            <Stack direction="row" spacing={2} sx={{
+              alignItems: "center"
+            }}>
+              <Stack direction="row" sx={{
+                alignItems: "center"
+              }}>
                 <IconButton aria-label="Decrease quantity" disabled={qty <= 1} onClick={() => setQty(qty - 1)}><RemoveIcon /></IconButton>
                 <Typography sx={{ minWidth: 28, textAlign: 'center' }}>{qty}</Typography>
                 <IconButton aria-label="Increase quantity" disabled={qty >= maxQty} onClick={() => setQty(qty + 1)}><AddIcon /></IconButton>
@@ -178,13 +210,23 @@ export default function ProductDetail() {
 
       {product.description && (
         <Box>
-          <Typography variant="h5" fontWeight={800} sx={{ mb: 1 }}>About this unit</Typography>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 800,
+              mb: 1
+            }}>About this unit</Typography>
           <Typography sx={{ whiteSpace: 'pre-wrap' }}>{product.description}</Typography>
         </Box>
       )}
 
       <Box>
-        <Typography variant="h5" fontWeight={800} sx={{ mb: 1 }}>Specifications</Typography>
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: 800,
+            mb: 1
+          }}>Specifications</Typography>
         <Paper variant="outlined">
           <Table size="small">
             <TableBody>

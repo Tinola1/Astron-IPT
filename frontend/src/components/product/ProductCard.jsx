@@ -23,41 +23,67 @@ export default function ProductCard({ product: p, compared, onToggleCompare, onA
       </Box>
 
       <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 0.75 }}>
-        <Typography variant="caption" color="text.secondary">{p.brand} · {p.category}</Typography>
+        <Typography variant="caption" sx={{
+          color: "text.secondary"
+        }}>{p.brand} · {p.category}</Typography>
                 <Typography
-          variant="subtitle1"
-          fontWeight={700}
-          lineHeight={1.25}
-          component={RouterLink}
-          to={`/products/${p._id}`}
-          sx={{ color: 'inherit', textDecoration: 'none', '&:hover': { color: 'primary.main' } }}
-        >
+                  variant="subtitle1"
+                  component={RouterLink}
+                  to={`/products/${p._id}`}
+                  sx={{
+                    fontWeight: 700,
+                    lineHeight: 1.25,
+                    color: 'inherit',
+                    textDecoration: 'none',
+                    '&:hover': { color: 'primary.main' }
+                  }}>
           {p.name}
         </Typography>
 
-        <Stack direction="row" alignItems="center" spacing={0.5}>
+        <Stack direction="row" spacing={0.5} sx={{
+          alignItems: "center"
+        }}>
           {p.numReviews > 0 ? (
             <>
               <Rating value={p.averageRating} precision={0.5} size="small" readOnly />
-              <Typography variant="caption" color="text.secondary">({p.numReviews})</Typography>
+              <Typography variant="caption" sx={{
+                color: "text.secondary"
+              }}>({p.numReviews})</Typography>
             </>
           ) : (
-            <Typography variant="caption" color="text.secondary">No reviews yet</Typography>
+            <Typography variant="caption" sx={{
+              color: "text.secondary"
+            }}>No reviews yet</Typography>
           )}
         </Stack>
 
-        <Stack direction="row" flexWrap="wrap" gap={0.5}>
+        <Stack
+          direction="row"
+          sx={{
+            flexWrap: "wrap",
+            gap: 0.5
+          }}>
           <Chip size="small" label={`${(p.specs.capacityBTU || 0).toLocaleString()} BTU / ${p.specs.capacityHP} HP`} />
           <Chip size="small" label={p.specs.isInverter ? 'Inverter' : 'Non-inverter'} />
           {p.specs.energyRating && <Chip size="small" label={`Energy ${p.specs.energyRating}★`} />}
         </Stack>
 
-        <Typography variant="h6" fontWeight={800} sx={{ mt: 'auto' }}>{peso(p.price)}</Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 800,
+            mt: 'auto'
+          }}>{peso(p.price)}</Typography>
         <Typography variant="caption" color={p.available ? (lowStock ? 'warning.main' : 'success.main') : 'error.main'}>
           {!p.available ? 'Out of stock' : lowStock ? `Only ${p.onlineStock} left` : 'In stock'}
         </Typography>
 
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack
+          direction="row"
+          sx={{
+            justifyContent: "space-between",
+            alignItems: "center"
+          }}>
           <FormControlLabel
             control={<Checkbox size="small" checked={compared} onChange={() => onToggleCompare(p)} />}
             label={<Typography variant="body2">Compare</Typography>}

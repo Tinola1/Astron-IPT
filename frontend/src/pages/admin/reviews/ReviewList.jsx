@@ -57,9 +57,18 @@ export default function ReviewList() {
       {
         field: 'customer', headerName: 'Customer', flex: 1, minWidth: 170, sortable: false,
         renderCell: (p) => (
-          <Stack justifyContent="center" sx={{ height: '100%', lineHeight: 1.3 }}>
-            <Typography variant="body2" fontWeight={600}>{p.row.customer.name}</Typography>
-            <Typography variant="caption" color="text.secondary">{p.row.customer.email}</Typography>
+          <Stack
+            sx={{
+              justifyContent: "center",
+              height: '100%',
+              lineHeight: 1.3
+            }}>
+            <Typography variant="body2" sx={{
+              fontWeight: 600
+            }}>{p.row.customer.name}</Typography>
+            <Typography variant="caption" sx={{
+              color: "text.secondary"
+            }}>{p.row.customer.email}</Typography>
           </Stack>
         ),
       },
@@ -71,7 +80,14 @@ export default function ReviewList() {
         field: 'comment', headerName: 'Review', flex: 2, minWidth: 220, sortable: false,
         renderCell: (p) => (
           <Tooltip title={p.value || ''} placement="top-start">
-            <Stack direction="row" spacing={1} alignItems="center" sx={{ height: '100%', minWidth: 0 }}>
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{
+                alignItems: "center",
+                height: '100%',
+                minWidth: 0
+              }}>
               <Typography variant="body2" noWrap>{p.value || <i>No comment</i>}</Typography>
               {p.row.isEdited && <Chip size="small" label="Edited" />}
             </Stack>
@@ -95,7 +111,9 @@ export default function ReviewList() {
 
   return (
     <Stack spacing={2}>
-      <Typography variant="h4" fontWeight={800}>Reviews</Typography>
+      <Typography variant="h4" sx={{
+        fontWeight: 800
+      }}>Reviews</Typography>
 
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
         <TextField

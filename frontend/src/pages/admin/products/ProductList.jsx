@@ -81,7 +81,9 @@ export default function ProductList() {
       {
         field: 'onlineStock', headerName: 'Online', width: 80, type: 'number', sortable: false,
         renderCell: (p) => (
-          <Typography variant="body2" color={p.value <= 5 ? 'warning.main' : 'text.primary'} fontWeight={p.value <= 5 ? 700 : 400}>
+          <Typography variant="body2" color={p.value <= 5 ? 'warning.main' : 'text.primary'} sx={{
+            fontWeight: p.value <= 5 ? 700 : 400
+          }}>
             {p.value}
           </Typography>
         ),
@@ -117,14 +119,24 @@ export default function ProductList() {
 
   return (
     <Stack spacing={2}>
-      <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ sm: 'center' }} spacing={1}>
-        <Typography variant="h4" fontWeight={800}>Products</Typography>
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        spacing={1}
+        sx={{
+          justifyContent: "space-between",
+          alignItems: { sm: 'center' }
+        }}>
+        <Typography variant="h4" sx={{
+          fontWeight: 800
+        }}>Products</Typography>
         <Button component={RouterLink} to="/admin/products/new" variant="contained" startIcon={<AddIcon />}>
           Add product
         </Button>
       </Stack>
 
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} alignItems={{ sm: 'center' }}>
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} sx={{
+        alignItems: { sm: 'center' }
+      }}>
         <TextField
           size="small" label="Search name or model" value={search} sx={{ minWidth: 260 }}
           onChange={(e) => { setSearch(e.target.value); setPaging((p) => ({ ...p, page: 0 })); }}

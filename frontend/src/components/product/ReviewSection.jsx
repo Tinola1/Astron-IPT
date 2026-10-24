@@ -28,7 +28,9 @@ export default function ReviewSection({ productId }) {
 
   return (
     <Stack spacing={3}>
-      <Typography variant="h5" fontWeight={800}>Customer reviews</Typography>
+      <Typography variant="h5" sx={{
+        fontWeight: 800
+      }}>Customer reviews</Typography>
 
       <RatingSummary
         average={product.averageRating}
@@ -61,7 +63,9 @@ export default function ReviewSection({ productId }) {
       )}
       {reviewsLoading && <LinearProgress />}
       {!reviewsLoading && reviews.length === 0 && (
-        <Typography color="text.secondary">
+        <Typography sx={{
+          color: "text.secondary"
+        }}>
           {ratingFilter ? 'No reviews with this rating yet.' : 'No reviews yet. Be the first after you receive your unit!'}
         </Typography>
       )}
@@ -69,13 +73,26 @@ export default function ReviewSection({ productId }) {
       <Stack spacing={2}>
         {reviews.map((r) => (
           <Paper key={r._id} variant="outlined" sx={{ p: 2 }}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={1}>
-              <Stack direction="row" spacing={1} alignItems="center">
+            <Stack
+              direction="row"
+              sx={{
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: 1
+              }}>
+              <Stack direction="row" spacing={1} sx={{
+                alignItems: "center"
+              }}>
                 <Rating value={r.rating} readOnly size="small" />
-                <Typography fontWeight={600}>{r.author}</Typography>
+                <Typography sx={{
+                  fontWeight: 600
+                }}>{r.author}</Typography>
                 {r.isEdited && <Chip size="small" label="Edited" />}
               </Stack>
-              <Typography variant="caption" color="text.secondary">{formatDate(r.createdAt)}</Typography>
+              <Typography variant="caption" sx={{
+                color: "text.secondary"
+              }}>{formatDate(r.createdAt)}</Typography>
             </Stack>
             {r.comment && <Typography sx={{ mt: 1, whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{r.comment}</Typography>}
           </Paper>
@@ -93,7 +110,9 @@ export default function ReviewSection({ productId }) {
         />
       )}
       {total > 0 && (
-        <Typography variant="caption" color="text.secondary">{total} review{total === 1 ? '' : 's'} shown</Typography>
+        <Typography variant="caption" sx={{
+          color: "text.secondary"
+        }}>{total} review{total === 1 ? '' : 's'} shown</Typography>
       )}
     </Stack>
   );

@@ -61,7 +61,11 @@ const toPayload = (v, keepImages) => ({
 function Section({ title, children }) {
   return (
     <Paper sx={{ p: 2.5 }}>
-      <Typography fontWeight={700} sx={{ mb: 1 }}>{title}</Typography>
+      <Typography
+        sx={{
+          fontWeight: 700,
+          mb: 1
+        }}>{title}</Typography>
       {children}
     </Paper>
   );
@@ -117,7 +121,9 @@ export default function ProductForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <Stack spacing={2.5}>
-        <Typography variant="h4" fontWeight={800}>{isEdit ? 'Edit product' : 'Add product'}</Typography>
+        <Typography variant="h4" sx={{
+          fontWeight: 800
+        }}>{isEdit ? 'Edit product' : 'Add product'}</Typography>
         {error && <Alert severity="error">{error}</Alert>}
 
         <Section title="Basic information">
@@ -163,7 +169,9 @@ export default function ProductForm() {
           <ImageUploader existing={existing} files={files} onExistingChange={setExisting} onFilesChange={setFiles} />
         </Section>
 
-        <Stack direction="row" spacing={1.5} justifyContent="flex-end">
+        <Stack direction="row" spacing={1.5} sx={{
+          justifyContent: "flex-end"
+        }}>
           <Button component={RouterLink} to="/admin/products">Cancel</Button>
           <Button type="submit" variant="contained" size="large" disabled={saving}>
             {saving ? 'Saving…' : isEdit ? 'Save changes' : 'Create product'}

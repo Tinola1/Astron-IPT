@@ -86,11 +86,14 @@ export default function Home() {
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             spacing={2}
-            justifyContent="space-between"
-            alignItems={{ sm: 'center' }}
-            sx={{ mb: 2 }}
-          >
-            <Typography color="text.secondary">{total} unit{total === 1 ? '' : 's'} found</Typography>
+            sx={{
+              justifyContent: "space-between",
+              alignItems: { sm: 'center' },
+              mb: 2
+            }}>
+            <Typography sx={{
+              color: "text.secondary"
+            }}>{total} unit{total === 1 ? '' : 's'} found</Typography>
             <Stack direction="row" spacing={1}>
               <TextField
                 select size="small" label="Sort by" value={filters.sort} sx={{ minWidth: 180 }}
@@ -140,7 +143,9 @@ export default function Home() {
 
           {viewMode === 'infinite' && (
             <Box ref={sentinelRef} sx={{ py: 3, textAlign: 'center' }}>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" sx={{
+                color: "text.secondary"
+              }}>
                 {page >= pages && items.length > 0 ? "You've reached the end" : ''}
               </Typography>
             </Box>

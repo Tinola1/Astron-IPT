@@ -44,7 +44,9 @@ export default function ProductFilters() {
   return (
     <Paper sx={{ p: 2, position: { md: 'sticky' }, top: { md: 80 } }}>
       <Stack spacing={2}>
-        <Typography fontWeight={700}>Filters</Typography>
+        <Typography sx={{
+          fontWeight: 700
+        }}>Filters</Typography>
 
         <TextField size="small" fullWidth label="Search model or name" value={search} onChange={(e) => setSearch(e.target.value)} />
 

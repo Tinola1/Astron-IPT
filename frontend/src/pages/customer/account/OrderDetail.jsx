@@ -50,10 +50,21 @@ export default function OrderDetail() {
       )}
       {error && <Alert severity="error">{error}</Alert>}
 
-      <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={1}>
+      <Stack
+        direction="row"
+        sx={{
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: 1
+        }}>
         <div>
-          <Typography variant="h4" fontWeight={800}>{order.orderNumber}</Typography>
-          <Typography color="text.secondary">Placed {formatDateTime(order.createdAt)}</Typography>
+          <Typography variant="h4" sx={{
+            fontWeight: 800
+          }}>{order.orderNumber}</Typography>
+          <Typography sx={{
+            color: "text.secondary"
+          }}>Placed {formatDateTime(order.createdAt)}</Typography>
         </div>
         <Chip label={st.label} color={st.color} />
       </Stack>
@@ -62,22 +73,36 @@ export default function OrderDetail() {
         <Grid size={{ xs: 12, md: 8 }}>
           <Stack spacing={2}>
             <Paper sx={{ p: 2 }}>
-              <Typography fontWeight={700} sx={{ mb: 1 }}>Items</Typography>
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  mb: 1
+                }}>Items</Typography>
               {order.items.map((it, i) => {
                 const addOnSum = it.addOns.reduce((s, x) => s + x.price, 0);
                 return (
                   <div key={it._id || i}>
                     {i > 0 && <Divider sx={{ my: 1 }} />}
-                    <Stack direction="row" justifyContent="space-between">
+                    <Stack direction="row" sx={{
+                      justifyContent: "space-between"
+                    }}>
                       <div>
                         <Typography>{it.name} × {it.quantity}</Typography>
                         {it.addOns.map((x, j) => (
-                          <Typography key={j} variant="caption" color="text.secondary" display="block">
+                          <Typography
+                            key={j}
+                            variant="caption"
+                            sx={{
+                              color: "text.secondary",
+                              display: "block"
+                            }}>
                             + {x.name} ({peso(x.price)})
                           </Typography>
                         ))}
                       </div>
-                      <Typography fontWeight={700}>{peso((it.price + addOnSum) * it.quantity)}</Typography>
+                      <Typography sx={{
+                        fontWeight: 700
+                      }}>{peso((it.price + addOnSum) * it.quantity)}</Typography>
                     </Stack>
                   </div>
                 );
@@ -85,7 +110,11 @@ export default function OrderDetail() {
             </Paper>
 
             <Paper sx={{ p: 2 }}>
-              <Typography fontWeight={700} sx={{ mb: 1 }}>Status history</Typography>
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  mb: 1
+                }}>Status history</Typography>
               <Stack spacing={0.5}>
                 {order.statusHistory.map((h, i) => (
                   <Typography key={i} variant="body2">
@@ -104,9 +133,15 @@ export default function OrderDetail() {
               <OrderSummary totals={order} />
             </Paper>
             <Paper sx={{ p: 2 }}>
-              <Typography fontWeight={700}>Payment</Typography>
+              <Typography sx={{
+                fontWeight: 700
+              }}>Payment</Typography>
               <Typography variant="body2">{payLabel} ({order.payment.status})</Typography>
-              <Typography fontWeight={700} sx={{ mt: 1.5 }}>
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  mt: 1.5
+                }}>
                 {order.fulfillment === 'pickup' ? 'Pickup at showroom' : 'Delivery to'}
               </Typography>
               {order.fulfillment === 'delivery' && (
@@ -118,7 +153,11 @@ export default function OrderDetail() {
               )}
               {order.installation?.requested && (
                 <>
-                  <Typography fontWeight={700} sx={{ mt: 1.5 }}>Installation</Typography>
+                  <Typography
+                    sx={{
+                      fontWeight: 700,
+                      mt: 1.5
+                    }}>Installation</Typography>
                   <Typography variant="body2">Preferred date: {formatDate(order.installation.preferredDate)}</Typography>
                 </>
               )}

@@ -86,12 +86,25 @@ export default function AdminOrderDetail() {
 
   return (
     <Stack spacing={2}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={1}>
+      <Stack
+        direction="row"
+        sx={{
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: 1
+        }}>
         <div>
-          <Typography variant="h4" fontWeight={800}>{order.orderNumber}</Typography>
-          <Typography color="text.secondary">Placed {formatDateTime(order.createdAt)}</Typography>
+          <Typography variant="h4" sx={{
+            fontWeight: 800
+          }}>{order.orderNumber}</Typography>
+          <Typography sx={{
+            color: "text.secondary"
+          }}>Placed {formatDateTime(order.createdAt)}</Typography>
         </div>
-        <Stack direction="row" spacing={1} alignItems="center">
+        <Stack direction="row" spacing={1} sx={{
+          alignItems: "center"
+        }}>
           <Chip label={st.label} color={st.color} />
           <Chip label={`Payment: ${ps.label}`} color={ps.color} variant="outlined" />
         </Stack>
@@ -103,25 +116,44 @@ export default function AdminOrderDetail() {
         <Grid size={{ xs: 12, md: 7 }}>
           <Stack spacing={2}>
             <Paper sx={{ p: 2 }}>
-              <Typography fontWeight={700} sx={{ mb: 1 }}>Items</Typography>
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  mb: 1
+                }}>Items</Typography>
               {order.items.map((it, i) => {
                 const addOnSum = it.addOns.reduce((s, x) => s + x.price, 0);
                 return (
                   <div key={it._id || i}>
                     {i > 0 && <Divider sx={{ my: 1 }} />}
-                    <Stack direction="row" justifyContent="space-between">
+                    <Stack direction="row" sx={{
+                      justifyContent: "space-between"
+                    }}>
                       <div>
                         <Typography>{it.name} × {it.quantity}</Typography>
-                        <Typography variant="caption" color="text.secondary" display="block">
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            color: "text.secondary",
+                            display: "block"
+                          }}>
                           {it.modelNumber} · {peso(it.price)} each
                         </Typography>
                         {it.addOns.map((x, j) => (
-                          <Typography key={j} variant="caption" color="text.secondary" display="block">
+                          <Typography
+                            key={j}
+                            variant="caption"
+                            sx={{
+                              color: "text.secondary",
+                              display: "block"
+                            }}>
                             + {x.name} ({peso(x.price)})
                           </Typography>
                         ))}
                       </div>
-                      <Typography fontWeight={700}>{peso((it.price + addOnSum) * it.quantity)}</Typography>
+                      <Typography sx={{
+                        fontWeight: 700
+                      }}>{peso((it.price + addOnSum) * it.quantity)}</Typography>
                     </Stack>
                   </div>
                 );
@@ -129,7 +161,11 @@ export default function AdminOrderDetail() {
             </Paper>
 
             <Paper sx={{ p: 2 }}>
-              <Typography fontWeight={700} sx={{ mb: 1 }}>Status history</Typography>
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  mb: 1
+                }}>Status history</Typography>
               <Stack spacing={0.5}>
                 {order.statusHistory.map((h, i) => (
                   <Typography key={i} variant="body2">
@@ -146,7 +182,11 @@ export default function AdminOrderDetail() {
         <Grid size={{ xs: 12, md: 5 }}>
           <Stack spacing={2}>
             <Paper sx={{ p: 2 }}>
-              <Typography fontWeight={700} sx={{ mb: 1.5 }}>Update order</Typography>
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  mb: 1.5
+                }}>Update order</Typography>
               <Stack spacing={2}>
                 {order.nextStatuses.length > 0 ? (
                   <TextField select size="small" fullWidth label="Move to status" value={status} onChange={(e) => setStatus(e.target.value)}>
@@ -156,7 +196,9 @@ export default function AdminOrderDetail() {
                     ))}
                   </TextField>
                 ) : (
-                  <Typography variant="body2" color="text.secondary">No further status changes are available.</Typography>
+                  <Typography variant="body2" sx={{
+                    color: "text.secondary"
+                  }}>No further status changes are available.</Typography>
                 )}
 
                 <TextField select size="small" fullWidth label="Payment status" value={payStatus} onChange={(e) => setPayStatus(e.target.value)}>
@@ -187,13 +229,23 @@ export default function AdminOrderDetail() {
             </Paper>
 
             <Paper sx={{ p: 2 }}>
-              <Typography fontWeight={700}>Customer</Typography>
+              <Typography sx={{
+                fontWeight: 700
+              }}>Customer</Typography>
               <Typography variant="body2">
                 {order.user?.name}<br />{order.user?.email}{order.user?.phone ? <><br />{order.user.phone}</> : null}
               </Typography>
-              <Typography fontWeight={700} sx={{ mt: 1.5 }}>Payment</Typography>
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  mt: 1.5
+                }}>Payment</Typography>
               <Typography variant="body2">{payMethod}</Typography>
-              <Typography fontWeight={700} sx={{ mt: 1.5 }}>
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  mt: 1.5
+                }}>
                 {order.fulfillment === 'pickup' ? 'Pickup at showroom' : 'Delivery to'}
               </Typography>
               {order.fulfillment === 'delivery' && (
@@ -205,7 +257,11 @@ export default function AdminOrderDetail() {
               )}
               {order.installation?.requested && (
                 <>
-                  <Typography fontWeight={700} sx={{ mt: 1.5 }}>Installation</Typography>
+                  <Typography
+                    sx={{
+                      fontWeight: 700,
+                      mt: 1.5
+                    }}>Installation</Typography>
                   <Typography variant="body2">Preferred date: {formatDate(order.installation.preferredDate)}</Typography>
                 </>
               )}

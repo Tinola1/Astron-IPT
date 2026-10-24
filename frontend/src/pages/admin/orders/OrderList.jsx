@@ -38,9 +38,18 @@ export default function OrderList() {
       {
         field: 'customer', headerName: 'Customer', flex: 1.2, minWidth: 180, sortable: false,
         renderCell: (p) => (
-          <Stack justifyContent="center" sx={{ height: '100%', lineHeight: 1.3 }}>
-            <Typography variant="body2" fontWeight={600}>{p.row.customer.name}</Typography>
-            <Typography variant="caption" color="text.secondary">{p.row.customer.email}</Typography>
+          <Stack
+            sx={{
+              justifyContent: "center",
+              height: '100%',
+              lineHeight: 1.3
+            }}>
+            <Typography variant="body2" sx={{
+              fontWeight: 600
+            }}>{p.row.customer.name}</Typography>
+            <Typography variant="caption" sx={{
+              color: "text.secondary"
+            }}>{p.row.customer.email}</Typography>
           </Stack>
         ),
       },
@@ -53,9 +62,17 @@ export default function OrderList() {
           const ps = PAYMENT_STATUS[p.value] || { label: p.value, color: 'default' };
           const method = PAYMENT_METHODS.find((m) => m.value === p.row.paymentMethod)?.label || p.row.paymentMethod;
           return (
-            <Stack direction="row" spacing={1} alignItems="center" sx={{ height: '100%' }}>
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{
+                alignItems: "center",
+                height: '100%'
+              }}>
               <Chip size="small" label={ps.label} color={ps.color} />
-              <Typography variant="caption" color="text.secondary" noWrap>{method.split(' ')[0]}</Typography>
+              <Typography variant="caption" noWrap sx={{
+                color: "text.secondary"
+              }}>{method.split(' ')[0]}</Typography>
             </Stack>
           );
         },
@@ -81,7 +98,9 @@ export default function OrderList() {
 
   return (
     <Stack spacing={2}>
-      <Typography variant="h4" fontWeight={800}>Orders</Typography>
+      <Typography variant="h4" sx={{
+        fontWeight: 800
+      }}>Orders</Typography>
 
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
         <TextField

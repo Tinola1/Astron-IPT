@@ -42,7 +42,9 @@ export default function AdminLayout() {
   const drawer = (
     <Box sx={{ width: WIDTH, display: 'flex', flexDirection: 'column', height: '100%' }}>
       <Toolbar>
-        <Typography variant="h6" fontWeight={800} color="primary">Astron Admin</Typography>
+        <Typography variant="h6" color="primary" sx={{
+          fontWeight: 800
+        }}>Astron Admin</Typography>
       </Toolbar>
       <Divider />
       <List sx={{ flex: 1 }}>
@@ -84,7 +86,12 @@ export default function AdminLayout() {
           <AppBar position="fixed" color="inherit" elevation={1}>
             <Toolbar>
               <IconButton edge="start" onClick={() => setOpen(true)} aria-label="Open menu"><MenuIcon /></IconButton>
-              <Typography fontWeight={800} color="primary" sx={{ ml: 1 }}>Astron Admin</Typography>
+              <Typography
+                color="primary"
+                sx={{
+                  fontWeight: 800,
+                  ml: 1
+                }}>Astron Admin</Typography>
             </Toolbar>
           </AppBar>
           <Drawer open={open} onClose={() => setOpen(false)}>{drawer}</Drawer>

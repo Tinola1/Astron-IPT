@@ -19,7 +19,9 @@ export default function Cart() {
 
   return (
     <Stack spacing={2}>
-      <Typography variant="h4" fontWeight={800}>Your cart</Typography>
+      <Typography variant="h4" sx={{
+        fontWeight: 800
+      }}>Your cart</Typography>
       {cart.loading && <LinearProgress />}
       {cart.error && <Alert severity="error">{cart.error}</Alert>}
 
@@ -39,7 +41,11 @@ export default function Cart() {
           </Grid>
           <Grid size={{ xs: 12, md: 4 }}>
             <Paper sx={{ p: 2, position: { md: 'sticky' }, top: { md: 80 } }}>
-              <Typography fontWeight={700} sx={{ mb: 1.5 }}>Order summary</Typography>
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  mb: 1.5
+                }}>Order summary</Typography>
               <OrderSummary totals={cart} deliveryPending />
               <Button
                 component={RouterLink}

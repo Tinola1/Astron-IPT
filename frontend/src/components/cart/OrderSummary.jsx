@@ -3,9 +3,15 @@ import { peso } from '../../utils/format';
 
 function Row({ label, value, color, bold }) {
   return (
-    <Stack direction="row" justifyContent="space-between">
-      <Typography variant={bold ? 'subtitle1' : 'body2'} fontWeight={bold ? 800 : 400}>{label}</Typography>
-      <Typography variant={bold ? 'subtitle1' : 'body2'} fontWeight={bold ? 800 : 400} color={color}>{value}</Typography>
+    <Stack direction="row" sx={{
+      justifyContent: "space-between"
+    }}>
+      <Typography variant={bold ? 'subtitle1' : 'body2'} sx={{
+        fontWeight: bold ? 800 : 400
+      }}>{label}</Typography>
+      <Typography variant={bold ? 'subtitle1' : 'body2'} color={color} sx={{
+        fontWeight: bold ? 800 : 400
+      }}>{value}</Typography>
     </Stack>
   );
 }
