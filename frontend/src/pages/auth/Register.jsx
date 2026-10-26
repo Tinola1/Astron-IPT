@@ -9,6 +9,7 @@ import AuthCard from '../../components/common/AuthCard';
 import RHFTextField from '../../components/common/RHFTextField';
 import { registerSchema } from '../../validators/authSchemas';
 import { register as registerAction, clearAuthError } from '../../store/actions/authActions';
+import GoogleButton from '../../components/auth/GoogleButton';
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ export default function Register() {
           {isSubmitting ? 'Creating account…' : 'Register'}
         </Button>
       </form>
+      <GoogleButton label="Sign up with Google" />
       <Typography variant="body2" sx={{ mt: 2 }}>
         Already have an account? <Link component={RouterLink} to="/login">Log in</Link>
       </Typography>

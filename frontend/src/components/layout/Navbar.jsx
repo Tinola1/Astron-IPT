@@ -60,12 +60,12 @@ export default function Navbar() {
               {user.name.split(' ')[0]}
             </Button>
             <Menu anchorEl={anchor} open={!!anchor} onClose={() => setAnchor(null)}>
-              {user.role === 'customer' && [
-                <MenuItem key="p" onClick={() => go('/account/profile')}>My profile</MenuItem>,
+                {user.role === 'customer' && [
                 <MenuItem key="o" onClick={() => go('/account/orders')}>My orders</MenuItem>,
                 <MenuItem key="w" onClick={() => go('/account/warranties')}>Warranties</MenuItem>,
                 <MenuItem key="s" onClick={() => go('/account/service-requests')}>Service requests</MenuItem>,
               ]}
+              <MenuItem onClick={() => go('/account/profile')}>My profile</MenuItem>
               {isStaff && <MenuItem onClick={() => go('/admin')}>Dashboard</MenuItem>}
               <Divider />
               <MenuItem onClick={handleLogout}>Log out</MenuItem>

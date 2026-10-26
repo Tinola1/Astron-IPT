@@ -1,0 +1,8 @@
+export const AC_REQUEST = 'AC_REQUEST';
+export const AC_SUCCESS = 'AC_SUCCESS';
+export const AC_SAVE_REQUEST = 'AC_SAVE_REQUEST';
+export const AC_PROFILE_SAVED = 'AC_PROFILE_SAVED';
+export const AC_ADDRESSES_SAVED = 'AC_ADDRESSES_SAVED';
+export const AC_PASSWORD_SAVED = 'AC_PASSWORD_SAVED';
+export const AC_FAIL = 'AC_FAIL';
+export const AC_CLEAR_ERROR = 'AC_CLEAR_ERROR';

@@ -124,6 +124,7 @@ router.put('/reset-password/:token', async (req, res) => {
     if (!user) return res.status(400).json({ message: 'Token is invalid or has expired' });
 
     user.password = password;
+    user.passwordSet = true;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
     await user.save();

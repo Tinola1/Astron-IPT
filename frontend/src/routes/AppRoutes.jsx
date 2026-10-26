@@ -19,6 +19,7 @@ import AdminOrderList from '../pages/admin/orders/OrderList';
 import AdminOrderDetail from '../pages/admin/orders/OrderDetail';
 import ProductDetail from '../pages/customer/ProductDetail';
 import AdminReviewList from '../pages/admin/reviews/ReviewList';
+import Profile from '../pages/customer/account/Profile';
 
 export default function AppRoutes() {
   return (
@@ -31,6 +32,11 @@ export default function AppRoutes() {
         <Route path="register" element={<Register />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="reset-password/:token" element={<ResetPassword />} />
+
+        {/* any logged-in user, including staff */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="account/profile" element={<Profile />} />
+        </Route>
 
         {/* logged-in customers */}
         <Route element={<ProtectedRoute roles={['customer']} />}>

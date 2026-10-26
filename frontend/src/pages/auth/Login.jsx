@@ -9,6 +9,7 @@ import AuthCard from '../../components/common/AuthCard';
 import RHFTextField from '../../components/common/RHFTextField';
 import { loginSchema } from '../../validators/authSchemas';
 import { login, clearAuthError } from '../../store/actions/authActions';
+import GoogleButton from '../../components/auth/GoogleButton';
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ export default function Login() {
           {isSubmitting ? 'Logging in…' : 'Log in'}
         </Button>
       </form>
-      {/* Google/Facebook login buttons go here in the Quiz 4 batch */}
+      <GoogleButton />
       <Typography variant="body2" sx={{ mt: 2 }}>
         <Link component={RouterLink} to="/forgot-password">Forgot password?</Link>
       </Typography>

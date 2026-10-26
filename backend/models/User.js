@@ -36,6 +36,11 @@ const userSchema = new mongoose.Schema(
     avatar: { url: String, publicId: String },
     addresses: [addressSchema],
     isActive: { type: Boolean, default: true },
+    // --- social login (Google via Firebase) ---
+    authProvider: { type: String, enum: ['local', 'google'], default: 'local' },
+    firebaseUid: { type: String, unique: true, sparse: true },
+    // false for accounts created through Google (their stored password is random and unknown)
+    passwordSet: { type: Boolean, default: true },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },

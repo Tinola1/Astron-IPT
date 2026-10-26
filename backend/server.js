@@ -16,6 +16,8 @@ app.get('/', (req, res) => res.send('Astron API running'));
 app.use('/api/cart', require('./routes/cart'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/auth', require('./routes/socialAuth'));
+app.use('/api/account', require('./routes/account'));
 app.use('/api/admin/users', require('./routes/adminUsers'));
 app.use('/api/admin/products', require('./routes/adminProducts'));
 app.use('/api/admin/orders', require('./routes/adminOrders'));

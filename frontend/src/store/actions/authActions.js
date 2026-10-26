@@ -32,6 +32,23 @@ export const register = (data) => authenticate(() => authApi.registerUser(data))
 export const resetUserPassword = (token, password) =>
   authenticate(() => authApi.resetPassword(token, password));
 
+// Google sign-in. Resolves to { user, created, linked, passwordCleared }, or null on failure
+// (the reason is stored in state.auth.error, which the login/register pages already display).
+export const loginWithGoogle = (idToken) => async (dispatch) => {
+  dispatch({ type: AUTH_REQUEST });
+  try {
+    const data = await authApi.firebaseLogin(idToken);
+    dispatch({ type: AUTH_SUCCESS, payload: data.user });
+    return data;
+  } catch (e) {
+    dispatch({ type: AUTH_FAIL, payload: e.message });
+    return null;
+  }
+};
+
+// keep the navbar etc. in sync after the profile changes
+export const setAuthUser = (user) => ({ type: AUTH_SUCCESS, payload: user });
+
 export const logout = () => async (dispatch) => {
   await authApi.logoutUser().catch(() => {});
   dispatch({ type: LOGOUT });

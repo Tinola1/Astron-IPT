@@ -10,6 +10,7 @@ import adminOrderReducer from './reducers/adminOrderReducer';
 import productDetailReducer from './reducers/productDetailReducer';
 import adminReviewReducer from './reducers/adminReviewReducer';
 import reportReducer from './reducers/reportReducer';
+import accountReducer from './reducers/accountReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   productDetail: productDetailReducer,
   adminReviews: adminReviewReducer,
   reports: reportReducer,
+  account: accountReducer,
 });
 
 const composeEnhancers =

@@ -8,3 +8,5 @@ export const forgotPassword = (email) =>
   client.post('/auth/forgot-password', { email }).then((r) => r.data);
 export const resetPassword = (token, password) =>
   client.put(`/auth/reset-password/${token}`, { password }).then((r) => r.data);
+// Google sign-in: send the Firebase ID token; the backend verifies it and sets our own session cookie
+export const firebaseLogin = (idToken) => client.post('/auth/firebase', { idToken }).then((r) => r.data);
