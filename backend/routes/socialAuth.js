@@ -13,7 +13,7 @@ router.post('/firebase', h(async (req, res) => {
   res
     .cookie('token', token, cookieOptions())
     .status(created ? 201 : 200)
-    .json({ token, user: publicUser(user), created, linked, passwordCleared });
+    .json({ user: publicUser(user), created, linked, passwordCleared });
 }));
 
 module.exports = router;

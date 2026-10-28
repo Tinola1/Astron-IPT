@@ -20,7 +20,6 @@ const rootReducer = combineReducers({
   orders: orderReducer,
   adminProducts: adminProductReducer,
   adminOrders: adminOrderReducer,
-  adminOrders: adminOrderReducer,
   productDetail: productDetailReducer,
   adminReviews: adminReviewReducer,
   reports: reportReducer,

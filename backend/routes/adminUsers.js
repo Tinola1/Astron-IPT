@@ -20,8 +20,8 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ message: 'Role must be staff, technician or admin' });
     if (!email || !validator.isEmail(email))
       return res.status(400).json({ message: 'A valid email is required' });
-    if (!password || password.length < 6)
-      return res.status(400).json({ message: 'Password must be at least 6 characters' });
+    if (typeof password !== 'string' || password.length < 8 || Buffer.byteLength(password) > 72)
+      return res.status(400).json({ message: 'Password must be 8 to 72 characters' });
     if (await User.findOne({ email: email.toLowerCase() }))
       return res.status(409).json({ message: 'Email is already registered' });
 

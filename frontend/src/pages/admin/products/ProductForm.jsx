@@ -157,7 +157,7 @@ export default function ProductForm() {
         </Section>
 
         {!isEdit && (
-          <Section title="Initial stock">
+          <Section title="Stock">
             <Grid container columnSpacing={2}>
               <Grid size={{ xs: 6 }}><RHFTextField name="onlineStock" label="Online stock" type="number" {...field} /></Grid>
               <Grid size={{ xs: 6 }}><RHFTextField name="showroomStock" label="Showroom stock" type="number" {...field} /></Grid>

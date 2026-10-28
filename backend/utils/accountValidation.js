@@ -45,7 +45,7 @@ function cleanAddress(body = {}) {
 // bcrypt only uses the first 72 bytes, so refuse longer passwords instead of silently truncating
 function cleanPasswordChange(body = {}, { requireCurrent }) {
   const next = typeof body.newPassword === 'string' ? body.newPassword : '';
-  if (next.length < 6) throw httpError(400, 'New password must be at least 6 characters');
+  if (next.length < 8) throw httpError(400, 'New password must be at least 8 characters');
   if (Buffer.byteLength(next) > 72) throw httpError(400, 'New password must be at most 72 characters');
   const current = typeof body.currentPassword === 'string' ? body.currentPassword : '';
   if (requireCurrent) {

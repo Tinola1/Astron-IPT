@@ -237,8 +237,23 @@ router.put('/:id', receiveImages, h(async (req, res) => {
     if (e.code === 11000) throw httpError(409, 'A product with this model number already exists');
     throw e;
   }
+    // apply stock changes as a difference so a customer order in between isn't overwritten, and keep a history
+  const current = (await Inventory.findOne({ product: product._id })) || (await Inventory.create({ product: product._id }));
+  const onlineDiff = p.stock.online - current.onlineStock;
+  const showroomDiff = p.stock.showroom - current.showroomStock;
+  let inv = current.toObject();
+  if (onlineDiff || showroomDiff) {
+    const log = [];
+    if (onlineDiff) log.push({ stockType: 'online', change: onlineDiff, reason: 'Edited in product form', by: req.user._id });
+    if (showroomDiff) log.push({ stockType: 'showroom', change: showroomDiff, reason: 'Edited in product form', by: req.user._id });
+    inv = await Inventory.findOneAndUpdate(
+      { _id: current._id },
+      { $inc: { onlineStock: onlineDiff, showroomStock: showroomDiff }, $push: { adjustments: { $each: log } } },
+      { new: true }
+    ).lean();
+  }
   discard(removed); // best effort, after the DB is updated
-  res.json(shape(product.toObject(), await Inventory.findOne({ product: product._id }).lean()));
+  res.json(shape(product.toObject(), inv));
 }));
 
 // DELETE /api/admin/products/:id
