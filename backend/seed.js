@@ -40,6 +40,14 @@ const { Category, Brand, Product, Inventory, StoreInfo, User, AddOn, DeliveryZon
     await User.create({ name: 'Admin', email: adminEmail, password: pw, role: 'admin' });
     console.log(`Admin created: ${adminEmail} / ${pw}`);
   }
+
+  for (const [name, email, role] of [['Staff Demo', 'staff@astron.example', 'staff'], ['Tech Demo', 'tech@astron.example', 'technician']]) {
+    if (!(await User.findOne({ email }))) {
+      const pw = require('crypto').randomBytes(9).toString('base64url');
+      await User.create({ name, email, password: pw, role });
+      console.log(`${role} created: ${email} / ${pw}`);
+    }
+  }
   
     const addOns = [
     ['Standard installation', 'installation', 2500, 'Mounting and setup, up to 3m of piping'],

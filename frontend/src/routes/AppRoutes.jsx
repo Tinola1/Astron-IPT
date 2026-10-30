@@ -20,6 +20,8 @@ import AdminOrderDetail from '../pages/admin/orders/OrderDetail';
 import ProductDetail from '../pages/customer/ProductDetail';
 import AdminReviewList from '../pages/admin/reviews/ReviewList';
 import Profile from '../pages/customer/account/Profile';
+import InstallationList from '../pages/admin/installations/InstallationList';
+import MyJobs from '../pages/technician/MyJobs';
 
 export default function AppRoutes() {
   return (
@@ -46,6 +48,11 @@ export default function AppRoutes() {
           <Route path="account/orders/:id" element={<OrderDetail />} />
         </Route>
 
+        {/* technicians */}
+        <Route element={<ProtectedRoute roles={['technician']} />}>
+          <Route path="technician/jobs" element={<MyJobs />} />
+        </Route>
+
         <Route path="*" element={<NotFound />} />
       </Route>
 
@@ -53,6 +60,7 @@ export default function AppRoutes() {
       <Route path="admin" element={<ProtectedRoute roles={['admin', 'staff']} />}>
         <Route element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
+          <Route path="installations" element={<InstallationList />} />
           <Route element={<ProtectedRoute roles={['admin']} />}>
             <Route path="products" element={<ProductList />} />
             <Route path="products/new" element={<ProductForm />} />

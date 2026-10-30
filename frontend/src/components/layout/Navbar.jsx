@@ -28,7 +28,7 @@ export default function Navbar() {
     navigate('/');
   };
 
-  const isStaff = user && user.role !== 'customer';
+  const isStaff = user && ['admin', 'staff'].includes(user.role);
 
   return (
     <AppBar position="sticky" color="inherit" elevation={1}>
@@ -65,6 +65,7 @@ export default function Navbar() {
                 <MenuItem key="w" onClick={() => go('/account/warranties')}>Warranties</MenuItem>,
                 <MenuItem key="s" onClick={() => go('/account/service-requests')}>Service requests</MenuItem>,
               ]}
+              {user.role === 'technician' && <MenuItem onClick={() => go('/technician/jobs')}>My jobs</MenuItem>}
               <MenuItem onClick={() => go('/account/profile')}>My profile</MenuItem>
               {isStaff && <MenuItem onClick={() => go('/admin')}>Dashboard</MenuItem>}
               <Divider />

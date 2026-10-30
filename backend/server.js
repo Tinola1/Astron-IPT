@@ -64,6 +64,7 @@ app.use('/api/admin/users', require('./routes/adminUsers'));
 app.use('/api/admin/products', require('./routes/adminProducts'));
 app.use('/api/admin/orders', require('./routes/adminOrders'));
 app.use('/api/admin', require('./routes/adminReports'));
+app.use('/api/installations', require('./routes/installations'));
 app.use('/api', require('./routes/reviews'));
 app.use('/api', require('./routes/public'));
 

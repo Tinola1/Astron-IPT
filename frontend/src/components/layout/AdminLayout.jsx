@@ -15,13 +15,15 @@ import { toast } from 'react-toastify';
 import { logout } from '../../store/actions/authActions';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import RateReviewIcon from '@mui/icons-material/RateReview';
+import EngineeringIcon from '@mui/icons-material/Engineering';
 
 const WIDTH = 240;
 const NAV = [
   { label: 'Dashboard', to: '/admin', icon: <DashboardIcon />, exact: true },
+  { label: 'Installations', to: '/admin/installations', icon: <EngineeringIcon />, roles: ['admin', 'staff'] },
   { label: 'Products', to: '/admin/products', icon: <Inventory2Icon />, roles: ['admin'] },
   { label: 'Orders', to: '/admin/orders', icon: <ReceiptLongIcon />, roles: ['admin'] },
-    { label: 'Reviews', to: '/admin/reviews', icon: <RateReviewIcon />, roles: ['admin'] },
+  { label: 'Reviews', to: '/admin/reviews', icon: <RateReviewIcon />, roles: ['admin'] },
 ];
 
 export default function AdminLayout() {

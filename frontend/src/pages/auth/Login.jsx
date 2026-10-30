@@ -31,7 +31,7 @@ export default function Login() {
     const user = await dispatch(login(values));
     if (user) {
       toast.success(`Welcome back, ${user.name.split(' ')[0]}!`);
-      navigate(location.state?.from?.pathname || '/', { replace: true });
+      navigate(location.state?.from?.pathname || (user.role === 'technician' ? '/technician/jobs' : '/'), { replace: true });
     }
   };
 
