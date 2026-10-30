@@ -17,10 +17,13 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import BuildIcon from '@mui/icons-material/Build';
+import WarehouseIcon from '@mui/icons-material/Warehouse';
+import NotificationBell from '../common/NotificationBell';
 
 const WIDTH = 240;
 const NAV = [
   { label: 'Dashboard', to: '/admin', icon: <DashboardIcon />, exact: true },
+  { label: 'Inventory', to: '/admin/inventory', icon: <WarehouseIcon />, roles: ['admin'] },
   { label: 'Installations', to: '/admin/installations', icon: <EngineeringIcon />, roles: ['admin', 'staff'] },
   { label: 'Products', to: '/admin/products', icon: <Inventory2Icon />, roles: ['admin'] },
   { label: 'Orders', to: '/admin/orders', icon: <ReceiptLongIcon />, roles: ['admin'] },
@@ -47,8 +50,10 @@ export default function AdminLayout() {
     <Box sx={{ width: WIDTH, display: 'flex', flexDirection: 'column', height: '100%' }}>
       <Toolbar>
         <Typography variant="h6" color="primary" sx={{
-          fontWeight: 800
+          fontWeight: 800,
+          flex: 1
         }}>Astron Admin</Typography>
+        <NotificationBell />
       </Toolbar>
       <Divider />
       <List sx={{ flex: 1 }}>

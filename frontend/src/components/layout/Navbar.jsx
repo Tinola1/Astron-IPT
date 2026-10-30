@@ -8,6 +8,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/actions/authActions';
+import NotificationBell from '../common/NotificationBell';
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ export default function Navbar() {
 
         {user ? (
           <>
+            <NotificationBell />
             <Button
               color="inherit"
               startIcon={<AccountCircleIcon />}

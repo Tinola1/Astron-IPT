@@ -25,6 +25,8 @@ import MyJobs from '../pages/technician/MyJobs';
 import Warranties from '../pages/customer/account/Warranties';
 import ServiceRequests from '../pages/customer/account/ServiceRequests';
 import ServiceRequestList from '../pages/admin/service/ServiceRequestList';
+import InventoryList from '../pages/admin/inventory/InventoryList';
+import InventoryDetail from '../pages/admin/inventory/InventoryDetail';
 
 export default function AppRoutes() {
   return (
@@ -74,6 +76,8 @@ export default function AppRoutes() {
             <Route path="orders" element={<AdminOrderList />} />
             <Route path="orders/:id" element={<AdminOrderDetail />} />
             <Route path="reviews" element={<AdminReviewList />} />
+            <Route path="inventory" element={<InventoryList />} />
+            <Route path="inventory/:id" element={<InventoryDetail />} />
           </Route>
         </Route>
       </Route>

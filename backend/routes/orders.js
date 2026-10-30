@@ -7,6 +7,7 @@ const { computeTotals } = require('../utils/pricing');
 const { sendOrderConfirmation } = require('../utils/orderEmail');
 const { finalizeCancellation } = require('../utils/orderService');
 const { buildReceiptPdf } = require('../utils/receiptPdf');
+const { checkLowStock } = require('../utils/stock');
 const { asyncHandler: h, httpError } = require('../utils/http');
 
 router.use(protect, authorize('customer'));
@@ -123,6 +124,7 @@ router.post('/', h(async (req, res) => {
   // --- after the order exists: clear cart, installation job, saved address, email ---
   cart.items = [];
   await cart.save();
+  checkLowStock(order.items.map((i) => i.product)).catch((e) => console.error('Low-stock check failed:', e.message));
 
   if (needsInstall) {
     await Installation.create({

@@ -5,6 +5,7 @@ const { protect, authorize } = require('../middleware/auth');
 const upload = require('../middleware/upload');
 const { uploadToCloudinary, deleteFromCloudinary } = require('../utils/uploadToCloudinary');
 const { asyncHandler: h, httpError } = require('../utils/http');
+const { checkLowStock } = require('../utils/stock');
 
 router.use(protect, authorize('admin'));
 
@@ -198,6 +199,7 @@ router.post('/', receiveImages, h(async (req, res) => {
     if (e.code === 11000) throw httpError(409, 'A product with this model number already exists');
     throw e;
   }
+  checkLowStock([product._id]).catch((e) => console.error('Low-stock check failed:', e.message));
   res.status(201).json(shape(product.toObject(), { onlineStock: p.stock.online, showroomStock: p.stock.showroom }));
 }));
 
@@ -252,6 +254,7 @@ router.put('/:id', receiveImages, h(async (req, res) => {
       { new: true }
     ).lean();
   }
+  checkLowStock([product._id]).catch((e) => console.error('Low-stock check failed:', e.message));
   discard(removed); // best effort, after the DB is updated
   res.json(shape(product.toObject(), inv));
 }));
