@@ -16,6 +16,7 @@ import { logout } from '../../store/actions/authActions';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import EngineeringIcon from '@mui/icons-material/Engineering';
+import BuildIcon from '@mui/icons-material/Build';
 
 const WIDTH = 240;
 const NAV = [
@@ -23,6 +24,7 @@ const NAV = [
   { label: 'Installations', to: '/admin/installations', icon: <EngineeringIcon />, roles: ['admin', 'staff'] },
   { label: 'Products', to: '/admin/products', icon: <Inventory2Icon />, roles: ['admin'] },
   { label: 'Orders', to: '/admin/orders', icon: <ReceiptLongIcon />, roles: ['admin'] },
+  { label: 'Service requests', to: '/admin/service-requests', icon: <BuildIcon />, roles: ['admin', 'staff'] },
   { label: 'Reviews', to: '/admin/reviews', icon: <RateReviewIcon />, roles: ['admin'] },
 ];
 

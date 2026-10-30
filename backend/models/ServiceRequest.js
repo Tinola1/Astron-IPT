@@ -13,6 +13,7 @@ const serviceRequestSchema = new mongoose.Schema(
     description: { type: String, required: true },
     photos: [{ url: String, publicId: String }],
     preferredDate: Date,
+    scheduledDate: Date,
     status: {
       type: String,
       enum: ['submitted', 'under_review', 'approved', 'rejected', 'scheduled', 'in_progress', 'completed'],

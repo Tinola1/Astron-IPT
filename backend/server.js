@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
+const { runMaintenanceReminders } = require('./utils/maintenance');
 
 // refuse to start with missing security settings
 for (const key of ['MONGODB_URI', 'JWT_SECRET', 'CLIENT_URL']) {
@@ -65,6 +66,8 @@ app.use('/api/admin/products', require('./routes/adminProducts'));
 app.use('/api/admin/orders', require('./routes/adminOrders'));
 app.use('/api/admin', require('./routes/adminReports'));
 app.use('/api/installations', require('./routes/installations'));
+app.use('/api/after-sales', require('./routes/aftersales'));
+app.use('/api/admin/service-requests', require('./routes/adminService'));
 app.use('/api', require('./routes/reviews'));
 app.use('/api', require('./routes/public'));
 
@@ -80,4 +83,12 @@ const PORT = process.env.PORT || 5000;
 
 connectDB().then(() => {
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+  // cleaning reminders: check shortly after start, then once a day
+  const remind = () =>
+    runMaintenanceReminders()
+      .then((r) => r.sent && console.log(`Sent ${r.sent} maintenance reminder(s)`))
+      .catch((e) => console.error('Maintenance reminders failed:', e.message));
+  setTimeout(remind, 60 * 1000).unref();
+  setInterval(remind, 24 * 60 * 60 * 1000).unref();
 });

@@ -4,6 +4,7 @@ const { Order, User, Installation } = require('../models');
 const { protect, authorize } = require('../middleware/auth');
 const { finalizeCancellation } = require('../utils/orderService');
 const { sendOrderStatusUpdate } = require('../utils/orderEmail');
+const { registerWarranties } = require('../utils/warranty');
 const { buildReceiptPdf } = require('../utils/receiptPdf');
 const { asyncHandler: h, httpError } = require('../utils/http');
 
@@ -152,6 +153,8 @@ router.put('/:id/status', h(async (req, res) => {
   if (!updated) throw httpError(409, 'This order was just updated by someone else. Reload and try again.');
 
   if ($set.status === 'cancelled') await finalizeCancellation(updated);
+  if ($set.status === 'delivered')
+    await registerWarranties(updated).catch((e) => console.error('Warranty registration failed:', e.message));
   if ($set.status === 'installed')
     await Installation.updateMany({ order: updated._id }, { status: 'completed', completedAt: new Date() });
 
