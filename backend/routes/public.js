@@ -27,7 +27,12 @@ router.get('/addons', async (_req, res) => {
 });
 
 router.get('/store-info', async (_req, res) => {
-  res.json((await StoreInfo.findOne()) || {});
+  const i = (await StoreInfo.findOne().lean()) || {};
+  // only what the shop shows; internal settings stay private
+  res.json({
+    storeName: i.storeName, email: i.email, phone: i.phone, address: i.address,
+    businessHours: i.businessHours, social: { facebook: i.social?.facebook || '', instagram: i.social?.instagram || '' },
+  });
 });
 
 /*

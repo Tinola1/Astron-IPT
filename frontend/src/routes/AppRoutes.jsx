@@ -32,6 +32,8 @@ import CustomerList from '../pages/admin/customers/CustomerList';
 import CustomerDetail from '../pages/admin/customers/CustomerDetail';
 import TeamList from '../pages/admin/users/TeamList';
 import CatalogList from '../pages/admin/catalog/CatalogList';
+import StoreInfoForm from '../pages/admin/store/StoreInfoForm';
+import Promotions from '../pages/admin/store/Promotions';
 
 export default function AppRoutes() {
   return (
@@ -87,6 +89,8 @@ export default function AppRoutes() {
             <Route path="reports" element={<Reports />} />
             <Route path="team" element={<TeamList />} />
             <Route path="catalog" element={<CatalogList />} />
+            <Route path="store-info" element={<StoreInfoForm />} />
+            <Route path="promotions" element={<Promotions />} />
             <Route path="inventory/:id" element={<InventoryDetail />} />
           </Route>
         </Route>

@@ -88,8 +88,16 @@ router.post('/', h(async (req, res) => {
       deducted.push({ product: it.product._id, qty: it.quantity });
     }
     if (totals.promo) {
-      await Promotion.updateOne({ _id: totals.promo._id }, { $inc: { usedCount: 1 } });
-      promoUsed = totals.promo._id;
+    const claimed = await Promotion.updateOne(
+      {
+        _id: totals.promo._id,
+         isActive: true,
+         $expr: { $or: [{ $eq: [{ $ifNull: ['$usageLimit', null] }, null] }, { $lt: ['$usedCount', '$usageLimit'] }] },
+      },
+      { $inc: { usedCount: 1 } }
+    );
+    if (!claimed.modifiedCount) throw httpError(409, 'This promo has reached its usage limit');
+    promoUsed = totals.promo._id;
     }
 
     order = await Order.create({

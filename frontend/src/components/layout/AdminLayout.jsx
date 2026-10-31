@@ -18,6 +18,8 @@ import RateReviewIcon from '@mui/icons-material/RateReview';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import BuildIcon from '@mui/icons-material/Build';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import StoreIcon from '@mui/icons-material/Store';
 import NotificationBell from '../common/NotificationBell';
 import PeopleIcon from '@mui/icons-material/People';
 import AssessmentIcon from '@mui/icons-material/Assessment';
@@ -36,6 +38,8 @@ const NAV = [
   { label: 'Customers', to: '/admin/customers', icon: <PeopleIcon />, roles: ['admin', 'staff'] },
   { label: 'Staff & technicians', to: '/admin/team', icon: <BadgeIcon />, roles: ['admin'] },
   { label: 'Reports', to: '/admin/reports', icon: <AssessmentIcon />, roles: ['admin'] },
+  { label: 'Promotions', to: '/admin/promotions', icon: <LocalOfferIcon />, roles: ['admin'] },
+  { label: 'Store info', to: '/admin/store-info', icon: <StoreIcon />, roles: ['admin'] },
   { label: 'Reviews', to: '/admin/reviews', icon: <RateReviewIcon />, roles: ['admin'] },
 ];
 

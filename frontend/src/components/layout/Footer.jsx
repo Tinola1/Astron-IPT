@@ -34,6 +34,11 @@ export default function Footer() {
             }}>Contact</Typography>
             <Typography variant="body2">{store.email}</Typography>
             <Typography variant="body2">{store.phone}</Typography>
+            {['facebook', 'instagram'].map((k) => store.social?.[k] && (
+              <Typography key={k} variant="body2">
+                <a href={store.social[k]} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textTransform: 'capitalize' }}>{k}</a>
+              </Typography>
+            ))}
           </Grid>
         </Grid>
       </Container>
