@@ -63,6 +63,7 @@ app.use('/api/auth', require('./routes/socialAuth'));
 app.use('/api/account', require('./routes/account'));
 app.use('/api/admin/users', require('./routes/adminUsers'));
 app.use('/api/admin/products', require('./routes/adminProducts'));
+app.use('/api/admin/catalog', require('./routes/adminCatalog'));
 app.use('/api/admin/orders', require('./routes/adminOrders'));
 app.use('/api/admin', require('./routes/adminReports'));
 app.use('/api/admin', require('./routes/adminRecords'));
