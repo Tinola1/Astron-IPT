@@ -27,6 +27,9 @@ import ServiceRequests from '../pages/customer/account/ServiceRequests';
 import ServiceRequestList from '../pages/admin/service/ServiceRequestList';
 import InventoryList from '../pages/admin/inventory/InventoryList';
 import InventoryDetail from '../pages/admin/inventory/InventoryDetail';
+import Reports from '../pages/admin/reports/Reports';
+import CustomerList from '../pages/admin/customers/CustomerList';
+import CustomerDetail from '../pages/admin/customers/CustomerDetail';
 
 export default function AppRoutes() {
   return (
@@ -69,6 +72,8 @@ export default function AppRoutes() {
           <Route index element={<Dashboard />} />
           <Route path="installations" element={<InstallationList />} />
           <Route path="service-requests" element={<ServiceRequestList />} />
+          <Route path="customers" element={<CustomerList />} />
+          <Route path="customers/:id" element={<CustomerDetail />} />
           <Route element={<ProtectedRoute roles={['admin']} />}>
             <Route path="products" element={<ProductList />} />
             <Route path="products/new" element={<ProductForm />} />
@@ -77,6 +82,7 @@ export default function AppRoutes() {
             <Route path="orders/:id" element={<AdminOrderDetail />} />
             <Route path="reviews" element={<AdminReviewList />} />
             <Route path="inventory" element={<InventoryList />} />
+            <Route path="reports" element={<Reports />} />
             <Route path="inventory/:id" element={<InventoryDetail />} />
           </Route>
         </Route>
