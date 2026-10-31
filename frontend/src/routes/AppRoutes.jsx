@@ -30,6 +30,7 @@ import InventoryDetail from '../pages/admin/inventory/InventoryDetail';
 import Reports from '../pages/admin/reports/Reports';
 import CustomerList from '../pages/admin/customers/CustomerList';
 import CustomerDetail from '../pages/admin/customers/CustomerDetail';
+import TeamList from '../pages/admin/users/TeamList';
 
 export default function AppRoutes() {
   return (
@@ -83,6 +84,7 @@ export default function AppRoutes() {
             <Route path="reviews" element={<AdminReviewList />} />
             <Route path="inventory" element={<InventoryList />} />
             <Route path="reports" element={<Reports />} />
+            <Route path="team" element={<TeamList />} />
             <Route path="inventory/:id" element={<InventoryDetail />} />
           </Route>
         </Route>

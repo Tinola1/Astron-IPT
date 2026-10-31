@@ -21,6 +21,7 @@ import WarehouseIcon from '@mui/icons-material/Warehouse';
 import NotificationBell from '../common/NotificationBell';
 import PeopleIcon from '@mui/icons-material/People';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import BadgeIcon from '@mui/icons-material/Badge';
 
 const WIDTH = 240;
 const NAV = [
@@ -31,6 +32,7 @@ const NAV = [
   { label: 'Orders', to: '/admin/orders', icon: <ReceiptLongIcon />, roles: ['admin'] },
   { label: 'Service requests', to: '/admin/service-requests', icon: <BuildIcon />, roles: ['admin', 'staff'] },
   { label: 'Customers', to: '/admin/customers', icon: <PeopleIcon />, roles: ['admin', 'staff'] },
+  { label: 'Staff & technicians', to: '/admin/team', icon: <BadgeIcon />, roles: ['admin'] },
   { label: 'Reports', to: '/admin/reports', icon: <AssessmentIcon />, roles: ['admin'] },
   { label: 'Reviews', to: '/admin/reviews', icon: <RateReviewIcon />, roles: ['admin'] },
 ];
