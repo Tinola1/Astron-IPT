@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/actions/authActions';
 import NotificationBell from '../common/NotificationBell';
+import useStoreInfo from '../../hooks/useStoreInfo';
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [anchor, setAnchor] = useState(null);
   const cartCount = useSelector((state) => state.cart.count);
+  const store = useStoreInfo();
   
   const go = (path) => {
     setAnchor(null);
@@ -40,7 +42,12 @@ export default function Navbar() {
           to="/"
           sx={{ fontWeight: 800, color: 'primary.main', textDecoration: 'none', mr: 'auto' }}
         >
-          Astron
+        {store.logo ? <img src={store.logo} alt={
+          store.storeName || 'Astron'
+          } style={{ 
+            height: 36, display: 'block' 
+            }} /> : store.storeName || 'Astron'
+        }
         </Typography>
 
         <Button component={RouterLink} to="/" color="inherit">Shop</Button>
@@ -67,6 +74,7 @@ export default function Navbar() {
                 <MenuItem key="o" onClick={() => go('/account/orders')}>My orders</MenuItem>,
                 <MenuItem key="w" onClick={() => go('/account/warranties')}>Warranties</MenuItem>,
                 <MenuItem key="s" onClick={() => go('/account/service-requests')}>Service requests</MenuItem>,
+                <MenuItem key="a" onClick={() => go('/account/appointments')}>Appointments</MenuItem>,                
               ]}
               {user.role === 'technician' && <MenuItem onClick={() => go('/technician/jobs')}>My jobs</MenuItem>}
               <MenuItem onClick={() => go('/account/profile')}>My profile</MenuItem>

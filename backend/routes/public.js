@@ -42,8 +42,7 @@ router.get('/store-info', async (_req, res) => {
   // only what the shop shows; internal settings stay private
   res.json({
     storeName: i.storeName, email: i.email, phone: i.phone, address: i.address,
-    businessHours: i.businessHours, social: { facebook: i.social?.facebook || '', instagram: i.social?.instagram || '' },
-  });
+    businessHours: i.businessHours, logo: i.logo?.url || '', social: { facebook: i.social?.facebook || '', instagram: i.social?.instagram || '' },  });
 });
 
 /*

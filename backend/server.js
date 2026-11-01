@@ -66,6 +66,7 @@ app.use('/api/admin/products', require('./routes/adminProducts'));
 app.use('/api/admin/catalog', require('./routes/adminCatalog'));
 app.use('/api/admin/store', require('./routes/adminStore'));
 app.use('/api/admin/content', require('./routes/adminContent'));
+app.use('/api/admin/shop', require('./routes/adminShop'));
 app.use('/api/admin/orders', require('./routes/adminOrders'));
 app.use('/api/admin', require('./routes/adminReports'));
 app.use('/api/admin', require('./routes/adminRecords'));

@@ -1,7 +1,7 @@
 // Customer side of warranty and after-sales service. Mounted at /api/after-sales
 const router = require('express').Router();
 const mongoose = require('mongoose');
-const { Warranty, ServiceRequest } = require('../models');
+const { Warranty, ServiceRequest, Installation } = require('../models');
 const { protect, authorize } = require('../middleware/auth');
 const { ensureWarranties, warrantyState } = require('../utils/warranty');
 const { dayStart, todayManila, addDays } = require('../utils/reports');
@@ -103,6 +103,25 @@ router.post('/service-requests', h(async (req, res) => {
     preferredDate: date,
   });
   res.status(201).json({ _id: created._id, status: created.status });
+}));
+
+// GET /api/after-sales/appointments -> my installation and service visits, newest first
+router.get('/appointments', h(async (req, res) => {
+  const [installs, visits] = await Promise.all([
+    Installation.find({ customer: req.user._id }).populate('technician', 'name').populate('order', 'orderNumber').sort({ createdAt: -1 }).limit(50).lean(),
+    ServiceRequest.find({ customer: req.user._id, status: { $in: ['scheduled', 'in_progress', 'completed'] } }).populate('assignedTo', 'name').sort({ createdAt: -1 }).limit(50).lean(),
+  ]);
+  const rows = [
+    ...installs.map((i) => ({
+      _id: i._id, kind: 'installation', title: `Installation for order ${i.order?.orderNumber || ''}`.trim(),
+      status: i.status, date: i.scheduledDate || null, staff: i.technician?.name || null, createdAt: i.createdAt,
+    })),
+    ...visits.map((r) => ({
+      _id: r._id, kind: 'service', title: `${String(r.type).replace(/_/g, ' ')} visit`,
+      status: r.status, date: r.scheduledDate || null, staff: r.assignedTo?.name || null, createdAt: r.createdAt,
+    })),
+  ].sort((a, b) => new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt));
+  res.json(rows);
 }));
 
 module.exports = router;

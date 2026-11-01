@@ -5,6 +5,9 @@ const validator = require('validator');
 const { StoreInfo, Promotion, Order } = require('../models');
 const { protect, authorize } = require('../middleware/auth');
 const { isDate, dayStart, dayEnd } = require('../utils/reports');
+const upload = require('../middleware/upload');
+const { uploadToCloudinary, deleteFromCloudinary } = require('../utils/uploadToCloudinary');
+const { looksLikeImage } = require('../utils/imageCheck');
 const { asyncHandler: h, httpError } = require('../utils/http');
 
 router.use(protect, authorize('admin'));
@@ -27,6 +30,7 @@ const infoView = (i) => ({
   storeName: i?.storeName || '', email: i?.email || '', phone: i?.phone || '', address: i?.address || '',
   businessHours: i?.businessHours || '', facebook: i?.social?.facebook || '', instagram: i?.social?.instagram || '',
   maintenanceReminderMonths: i?.maintenanceReminderMonths ?? 6,
+  logo: i?.logo?.url || '',
 });
 
 router.get('/info', h(async (req, res) => res.json(infoView(await StoreInfo.findOne().lean()))));
@@ -51,6 +55,37 @@ router.put('/info', h(async (req, res) => {
   };
   const saved = await StoreInfo.findOneAndUpdate({}, { $set: data }, { new: true, upsert: true, setDefaultsOnInsert: true }).lean();
   res.json(infoView(saved));
+}));
+
+// ---------------- store logo ----------------
+const receiveLogo = (req, res, next) =>
+  upload.single('logo')(req, res, (err) => {
+    if (!err) return next();
+    res.status(400).json({ message: err.code === 'LIMIT_FILE_SIZE' ? 'The logo must be 5MB or smaller' : err.code === 'LIMIT_UNEXPECTED_FILE' ? 'Upload one image only' : err.message });
+  });
+
+// PUT /api/admin/store/logo  (multipart: logo=<file>)
+router.put('/logo', receiveLogo, h(async (req, res) => {
+  if (!req.file) throw httpError(400, 'Choose an image');
+  if (!looksLikeImage(req.file.buffer)) throw httpError(400, 'That file is not a real JPG, PNG or WebP image');
+  const fresh = await uploadToCloudinary(req.file.buffer, 'astron/store');
+  try {
+    const before = await StoreInfo.findOne().select('logo').lean();
+    await StoreInfo.findOneAndUpdate({}, { $set: { logo: fresh } }, { upsert: true, setDefaultsOnInsert: true });
+    if (before?.logo?.publicId) deleteFromCloudinary(before.logo.publicId).catch(() => {});
+  } catch (e) {
+    await deleteFromCloudinary(fresh.publicId).catch(() => {});
+    throw e;
+  }
+  res.json({ logo: fresh.url });
+}));
+
+// DELETE /api/admin/store/logo
+router.delete('/logo', h(async (req, res) => {
+  const before = await StoreInfo.findOne().select('logo').lean();
+  await StoreInfo.updateOne({}, { $unset: { logo: 1 } });
+  if (before?.logo?.publicId) deleteFromCloudinary(before.logo.publicId).catch(() => {});
+  res.json({ ok: true });
 }));
 
 // ---------------- promotions and discount codes ----------------

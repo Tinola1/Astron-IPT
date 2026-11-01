@@ -32,6 +32,8 @@ import CustomerList from '../pages/admin/customers/CustomerList';
 import CustomerDetail from '../pages/admin/customers/CustomerDetail';
 import TeamList from '../pages/admin/users/TeamList';
 import CatalogList from '../pages/admin/catalog/CatalogList';
+import Appointments from '../pages/customer/account/Appointments';
+import ShopSettings from '../pages/admin/shop/ShopSettings';
 import BuyingGuides from '../pages/customer/BuyingGuides';
 import ContentList from '../pages/admin/content/ContentList';
 import StoreInfoForm from '../pages/admin/store/StoreInfoForm';
@@ -63,6 +65,7 @@ export default function AppRoutes() {
           <Route path="account/orders/:id" element={<OrderDetail />} />
           <Route path="account/warranties" element={<Warranties />} />
           <Route path="account/service-requests" element={<ServiceRequests />} />
+          <Route path="account/appointments" element={<Appointments />} />          
         </Route>
 
         {/* technicians */}
@@ -95,6 +98,7 @@ export default function AppRoutes() {
             <Route path="store-info" element={<StoreInfoForm />} />
             <Route path="promotions" element={<Promotions />} />
             <Route path="content" element={<ContentList />} />
+            <Route path="shop" element={<ShopSettings />} />            
             <Route path="inventory/:id" element={<InventoryDetail />} />
           </Route>
         </Route>

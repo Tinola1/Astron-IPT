@@ -2,6 +2,7 @@ import client from './client';
 
 // customer
 export const fetchWarranties = () => client.get('/after-sales/warranties').then((r) => r.data);
+export const fetchAppointments = () => client.get('/after-sales/appointments').then((r) => r.data);
 export const fetchMyRequests = () => client.get('/after-sales/service-requests').then((r) => r.data);
 export const createServiceRequest = (data) => client.post('/after-sales/service-requests', data).then((r) => r.data);
 
