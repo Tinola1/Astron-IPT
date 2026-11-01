@@ -11,6 +11,7 @@ import productDetailReducer from './reducers/productDetailReducer';
 import adminReviewReducer from './reducers/adminReviewReducer';
 import reportReducer from './reducers/reportReducer';
 import accountReducer from './reducers/accountReducer';
+import wishlistReducer from './reducers/wishlistReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   adminReviews: adminReviewReducer,
   reports: reportReducer,
   account: accountReducer,
+  wishlist: wishlistReducer
 });
 
 const composeEnhancers =

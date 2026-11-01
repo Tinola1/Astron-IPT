@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { loadUser } from './store/actions/authActions';
 import { fetchCart, resetCart } from './store/actions/cartActions';
+import { fetchWishlist, resetWishlist } from './store/actions/wishlistActions';
 import AppRoutes from './routes/AppRoutes';
 
 export default function App() {
@@ -14,9 +15,14 @@ export default function App() {
   }, [dispatch]);
 
   // keep the navbar cart badge in sync with the logged-in customer
-  useEffect(() => {
-    if (user?.role === 'customer') dispatch(fetchCart());
-    else dispatch(resetCart());
+    useEffect(() => {
+    if (user?.role === 'customer') {
+      dispatch(fetchCart());
+      dispatch(fetchWishlist());      // ← ADD THIS LINE
+    } else {
+      dispatch(resetCart());
+      dispatch(resetWishlist());      // ← ADD THIS LINE
+    }
   }, [dispatch, user?._id, user?.role]);
 
   return (

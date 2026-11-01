@@ -74,6 +74,7 @@ export default function Navbar() {
                 <MenuItem key="o" onClick={() => go('/account/orders')}>My orders</MenuItem>,
                 <MenuItem key="w" onClick={() => go('/account/warranties')}>Warranties</MenuItem>,
                 <MenuItem key="s" onClick={() => go('/account/service-requests')}>Service requests</MenuItem>,
+                <MenuItem key="l" onClick={() => go('/account/wishlist')}>Wishlist</MenuItem>,
                 <MenuItem key="a" onClick={() => go('/account/appointments')}>Appointments</MenuItem>,                
               ]}
               {user.role === 'technician' && <MenuItem onClick={() => go('/technician/jobs')}>My jobs</MenuItem>}

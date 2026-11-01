@@ -17,4 +17,5 @@ module.exports = {
   Content: require('./Content'),
   StoreInfo: require('./StoreInfo'),
   Review: require('./Review'),
+  Wishlist: require('./Wishlist'),
 };

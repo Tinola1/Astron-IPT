@@ -1,12 +1,14 @@
 import { Box, Button, Card, CardContent, Checkbox, Chip, FormControlLabel, Rating, Stack, Typography } from '@mui/material';
 import { peso } from '../../utils/format';
 import { Link as RouterLink } from 'react-router-dom';
+import WishlistButton from './WishlistButton';
 
 export default function ProductCard({ product: p, compared, onToggleCompare, onAddToCart }) {  
   const lowStock = p.available && p.onlineStock <= 3;
 
   return (
-    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+      <WishlistButton productId={p._id} sx={{ position: 'absolute', top: 6, right: 6, zIndex: 1 }} />
       <Box
         component={RouterLink}
         to={`/products/${p._id}`}

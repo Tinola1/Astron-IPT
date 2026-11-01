@@ -10,6 +10,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { toast } from 'react-toastify';
 import Loader from '../../components/common/Loader';
 import ReviewSection from '../../components/product/ReviewSection';
+import WishlistButton from '../../components/product/WishlistButton';
 import { fetchProductDetail, clearProductDetail } from '../../store/actions/productDetailActions';
 import { addToCart } from '../../store/actions/cartActions';
 import { getAddOns } from '../../api/catalog';
@@ -203,6 +204,7 @@ export default function ProductDetail() {
               <Button variant="contained" size="large" disabled={!product.available} onClick={handleAdd} sx={{ flex: 1 }}>
                 Add to cart
               </Button>
+              <WishlistButton productId={product._id} sx={{ border: 1, borderColor: 'divider' }} />
             </Stack>
           </Stack>
         </Grid>

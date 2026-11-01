@@ -32,6 +32,7 @@ import CustomerList from '../pages/admin/customers/CustomerList';
 import CustomerDetail from '../pages/admin/customers/CustomerDetail';
 import TeamList from '../pages/admin/users/TeamList';
 import CatalogList from '../pages/admin/catalog/CatalogList';
+import Wishlist from '../pages/customer/account/Wishlist';
 import Appointments from '../pages/customer/account/Appointments';
 import ShopSettings from '../pages/admin/shop/ShopSettings';
 import BuyingGuides from '../pages/customer/BuyingGuides';
@@ -65,7 +66,8 @@ export default function AppRoutes() {
           <Route path="account/orders/:id" element={<OrderDetail />} />
           <Route path="account/warranties" element={<Warranties />} />
           <Route path="account/service-requests" element={<ServiceRequests />} />
-          <Route path="account/appointments" element={<Appointments />} />          
+          <Route path="account/appointments" element={<Appointments />} />    
+          <Route path="account/wishlist" element={<Wishlist />} />      
         </Route>
 
         {/* technicians */}
