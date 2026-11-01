@@ -41,6 +41,7 @@ const userSchema = new mongoose.Schema(
     firebaseUid: { type: String, unique: true, sparse: true },
     // false for accounts created through Google (their stored password is random and unknown)
     passwordSet: { type: Boolean, default: true },
+    passwordChangedAt: Date, // logins issued before this stop working
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },
@@ -60,6 +61,7 @@ const userSchema = new mongoose.Schema(
 userSchema.pre('save', async function () {
   if (!this.isModified('password')) return;
   this.password = await bcrypt.hash(this.password, 10);
+  if (!this.isNew) this.passwordChangedAt = new Date();
 });
 
 userSchema.methods.comparePassword = function (plain) {

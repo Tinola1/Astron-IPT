@@ -3,7 +3,7 @@ const { User } = require('../models');
 const { protect } = require('../middleware/auth');
 const { cleanProfile, cleanAddress, cleanPasswordChange } = require('../utils/accountValidation');
 const book = require('../utils/addressBook');
-const { publicUser } = require('../utils/session');
+const { publicUser, signToken, cookieOptions } = require('../utils/session');
 const { asyncHandler: h, httpError } = require('../utils/http');
 
 router.use(protect); // any logged-in user manages their own account
@@ -39,7 +39,8 @@ router.put('/password', h(async (req, res) => {
   user.password = newPassword;
   user.passwordSet = true;
   await user.save();
-  res.json({ message: 'Password updated', passwordSet: true });
+  // other devices are logged out; this one gets a fresh login
+  res.cookie('token', signToken(user._id), cookieOptions()).json({ message: 'Password updated', passwordSet: true });
 }));
 
 // ---- saved addresses (every route answers with the whole updated list) ----

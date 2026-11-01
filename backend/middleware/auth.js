@@ -14,6 +14,10 @@ const protect = async (req, res, next) => {
     if (!user || !user.isActive)
       return res.status(401).json({ message: 'Account not found or deactivated' });
 
+    // a password reset or change ends every login made before it
+    if (user.passwordChangedAt && Math.floor(user.passwordChangedAt.getTime() / 1000) > decoded.iat)
+      return res.status(401).json({ message: 'Your password changed. Please log in again.' });
+
     req.user = user;
     next();
   } catch {
