@@ -14,6 +14,7 @@ import RoomSizeFinder from '../../components/product/RoomSizeFinder';
 import ProductFilters from '../../components/product/ProductFilters';
 import ProductCard from '../../components/product/ProductCard';
 import CompareBar from '../../components/product/CompareBar';
+import HomeContent from '../../components/home/HomeContent';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -75,6 +76,8 @@ export default function Home() {
 
   return (
     <Stack spacing={3}>
+      <HomeContent />
+
       <RoomSizeFinder />
 
       <Grid container spacing={3}>

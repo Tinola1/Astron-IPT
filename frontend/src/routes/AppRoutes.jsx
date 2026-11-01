@@ -32,6 +32,8 @@ import CustomerList from '../pages/admin/customers/CustomerList';
 import CustomerDetail from '../pages/admin/customers/CustomerDetail';
 import TeamList from '../pages/admin/users/TeamList';
 import CatalogList from '../pages/admin/catalog/CatalogList';
+import BuyingGuides from '../pages/customer/BuyingGuides';
+import ContentList from '../pages/admin/content/ContentList';
 import StoreInfoForm from '../pages/admin/store/StoreInfoForm';
 import Promotions from '../pages/admin/store/Promotions';
 
@@ -42,6 +44,7 @@ export default function AppRoutes() {
         {/* public */}
         <Route index element={<Home />} />
         <Route path="products/:id" element={<ProductDetail />} />
+                <Route path="guides" element={<BuyingGuides />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
@@ -91,6 +94,7 @@ export default function AppRoutes() {
             <Route path="catalog" element={<CatalogList />} />
             <Route path="store-info" element={<StoreInfoForm />} />
             <Route path="promotions" element={<Promotions />} />
+            <Route path="content" element={<ContentList />} />
             <Route path="inventory/:id" element={<InventoryDetail />} />
           </Route>
         </Route>

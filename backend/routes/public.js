@@ -1,8 +1,7 @@
 // Public, read-only endpoints used by the storefront.
 const router = require('express').Router();
 const mongoose = require('mongoose');
-const { Product, Category, Brand, Inventory, StoreInfo, AddOn } = require('../models');
-
+const { Product, Category, Brand, Inventory, StoreInfo, AddOn, Content } = require('../models');
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const num = (v) => (v !== undefined && v !== '' && Number.isFinite(Number(v)) ? Number(v) : null);
 
@@ -24,6 +23,18 @@ router.get('/brands', async (_req, res) => {
 
 router.get('/addons', async (_req, res) => {
   res.json(await AddOn.find({ isActive: true }).sort('type price').select('name type description price'));
+});
+
+// Published banners, promotions and buying guides. ?type=banner|promotion|buying_guide
+router.get('/content', async (req, res) => {
+  try {
+    const where = { isPublished: true };
+    if (['banner', 'promotion', 'buying_guide'].includes(req.query.type)) where.type = req.query.type;
+    const list = await Content.find(where).sort({ order: 1, createdAt: -1 }).limit(50).lean();
+    res.json(list.map((c) => ({ _id: c._id, type: c.type, title: c.title, body: c.body || '', image: c.image?.url || '', link: c.link || '' })));
+  } catch {
+    res.status(500).json({ message: 'Could not load content' });
+  }
 });
 
 router.get('/store-info', async (_req, res) => {

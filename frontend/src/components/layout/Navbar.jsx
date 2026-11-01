@@ -44,6 +44,7 @@ export default function Navbar() {
         </Typography>
 
         <Button component={RouterLink} to="/" color="inherit">Shop</Button>
+        <Button component={RouterLink} to="/guides" color="inherit">Buying guides</Button>
 
         <IconButton component={RouterLink} to="/cart" aria-label="Cart">
           <Badge badgeContent={cartCount} color="primary" showZero>
