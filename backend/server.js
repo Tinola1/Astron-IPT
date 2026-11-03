@@ -24,7 +24,7 @@ if (process.env.JWT_SECRET.length < 32) {
 const app = express();
 const CLIENT_URL = process.env.CLIENT_URL.trim().replace(/\/$/, '');
 
-if (process.env.NODE_ENV === 'production') app.set('trust proxy', 1); // real client IP behind a host's proxy
+if (process.env.NODE_ENV === 'production') app.set('trust proxy', Number(process.env.TRUST_PROXY_HOPS) || 1);
 
 app.use(helmet());
 app.use(cors({ origin: CLIENT_URL, credentials: true }));
