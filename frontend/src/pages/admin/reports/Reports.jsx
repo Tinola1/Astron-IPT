@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Alert, Button, Chip, Grid, LinearProgress, Paper, Stack, Tab, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Tabs, TextField, Typography,
@@ -49,26 +49,30 @@ export default function Reports() {
   const [tab, setTab] = useState(0);
   const [from, setFrom] = useState(addDaysISO(todayISO(), -29));
   const [to, setTo] = useState(todayISO());
-  const [data, setData] = useState(null);
+  // result is tagged with the tab it belongs to, so a tab never renders another tab's data
+  const [result, setResult] = useState({ key: null, value: null });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [exporting, setExporting] = useState(false);
 
   const t = TABS[tab];
+  const data = result.key === t.key ? result.value : null;
+  const requestId = useRef(0);
   const rangeOk = !t.ranged || (from && to && from <= to);
   const params = t.ranged ? { from, to } : undefined;
 
   const load = useCallback(async () => {
     if (!rangeOk) return;
+    const id = ++requestId.current;
     setLoading(true);
     setError('');
-    setData(null);
     try {
-      setData(await t.load(params));
+      const value = await t.load(params);
+      if (id === requestId.current) setResult({ key: t.key, value });
     } catch (e) {
-      setError(e.message);
+      if (id === requestId.current) setError(e.message);
     } finally {
-      setLoading(false);
+      if (id === requestId.current) setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab, from, to]);

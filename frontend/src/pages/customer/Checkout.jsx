@@ -172,13 +172,13 @@ export default function Checkout() {
                   </TextField>
                 )}
                 <Grid container columnSpacing={2}>
-                  <Grid size={{ xs: 12, sm: 6 }}><RHFTextField name="recipient" label="Recipient" register={register} errors={errors} /></Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}><RHFTextField name="phone" label="Mobile number" register={register} errors={errors} /></Grid>
-                  <Grid size={12}><RHFTextField name="street" label="House no. / street" register={register} errors={errors} /></Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}><RHFTextField name="barangay" label="Barangay (optional)" register={register} errors={errors} /></Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}><RHFTextField name="city" label="City / municipality" register={register} errors={errors} /></Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}><RHFTextField name="province" label="Province" register={register} errors={errors} /></Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}><RHFTextField name="postalCode" label="Postal code (optional)" register={register} errors={errors} /></Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}><RHFTextField name="recipient" label="Recipient" register={register} errors={errors} watch={watch} /></Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}><RHFTextField name="phone" label="Mobile number" register={register} errors={errors} watch={watch} /></Grid>
+                  <Grid size={12}><RHFTextField name="street" label="House no. / street" register={register} errors={errors} watch={watch} /></Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}><RHFTextField name="barangay" label="Barangay (optional)" register={register} errors={errors} watch={watch} /></Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}><RHFTextField name="city" label="City / municipality" register={register} errors={errors} watch={watch} /></Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}><RHFTextField name="province" label="Province" register={register} errors={errors} watch={watch} /></Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}><RHFTextField name="postalCode" label="Postal code (optional)" register={register} errors={errors} watch={watch} /></Grid>
                 </Grid>
                 <FormControlLabel
                   control={<Controller name="saveAddress" control={control} render={({ field }) => <Checkbox checked={!!field.value} onChange={field.onChange} />} />}
