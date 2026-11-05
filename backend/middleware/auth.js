@@ -6,7 +6,6 @@ const protect = async (req, res, next) => {
   try {
     let token = req.cookies?.token;
     const header = req.headers.authorization;
-    if (!token && header?.startsWith('Bearer ')) token = header.split(' ')[1];
     if (!token) return res.status(401).json({ message: 'Not authenticated' });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

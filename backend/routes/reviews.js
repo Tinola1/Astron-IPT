@@ -45,6 +45,14 @@ function parseReview(body) {
   return { rating, comment };
 }
 
+// ---------- display-time profanity filter ----------
+// Reviews are stored exactly as written. Any text shown to the PUBLIC goes through this one
+// helper, so the filter is applied when a review is shown, not when it is saved.
+// (Changing the word list in utils/profanity.js therefore also affects old reviews.)
+const publicComment = (comment) => maskProfanity(comment).text;
+
+// The owner's own view stays RAW so the edit form is prefilled with what they really wrote
+// and saving it never overwrites their text with asterisks.
 const mine = (r) => ({
   _id: r._id, rating: r.rating, comment: r.comment, isEdited: r.isEdited, createdAt: r.createdAt, updatedAt: r.updatedAt,
 });
@@ -79,7 +87,7 @@ router.get('/products/:id/reviews', h(async (req, res) => {
     reviews: reviews.map((r) => ({
       _id: r._id,
       rating: r.rating,
-      comment: r.comment,
+      comment: publicComment(r.comment), // masked when shown
       author: shortName(r.user?.name),
       isEdited: r.isEdited,
       createdAt: r.createdAt,
@@ -112,10 +120,11 @@ router.post('/products/:id/reviews', protect, authorize('customer'), h(async (re
   if (await Review.exists({ product: product._id, user: req.user._id }))
     throw httpError(409, 'You already reviewed this product. You can edit your review instead.');
 
-  const { text, masked } = maskProfanity(comment);
+  // the raw comment is saved; `masked` only tells the UI to show the "words were masked" notice
+  const { masked } = maskProfanity(comment);
   let review;
   try {
-    review = await Review.create({ product: product._id, user: req.user._id, order: purchase._id, rating, comment: text });
+    review = await Review.create({ product: product._id, user: req.user._id, order: purchase._id, rating, comment });
   } catch (e) {
     if (e.code === 11000) throw httpError(409, 'You already reviewed this product.');
     throw e;
@@ -131,9 +140,9 @@ router.put('/reviews/:id', protect, authorize('customer'), h(async (req, res) =>
   if (!review) throw httpError(404, 'Review not found');
 
   const { rating, comment } = parseReview(req.body);
-  const { text, masked } = maskProfanity(comment);
+  const { masked } = maskProfanity(comment);
   review.rating = rating;
-  review.comment = text;
+  review.comment = comment; // raw text saved
   review.isEdited = true;
   await review.save();
   await recalcRating(review.product);
@@ -176,7 +185,8 @@ router.get('/admin/reviews', protect, authorize('admin'), h(async (req, res) => 
       product: { _id: r.product?._id, name: r.product?.name || 'Deleted product' },
       customer: { name: r.user?.name || 'Deleted user', email: r.user?.email || '' },
       rating: r.rating,
-      comment: r.comment,
+      comment: r.comment, // admins moderate, so they see the original text
+      flagged: maskProfanity(r.comment).masked, // true when the public sees a masked version
       isEdited: r.isEdited,
       createdAt: r.createdAt,
     })),
